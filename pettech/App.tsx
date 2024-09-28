@@ -1,21 +1,17 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import HomeScreen from "./src/screens/HomeScreen";
 import { ThemeProvider } from "./src/hooks/ThemeProvider";
+import DrawerNavigator from "./src/navigation/DrawerNavigation";
+import { AuthProvider } from "./src/context/AuthContext";
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <HomeScreen />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <DrawerNavigator />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const AppState = ({ children }: { children: React.ReactNode }) => {
+  return <AuthProvider>{children}</AuthProvider>;
+};
