@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { ThemeContext } from "../hooks/ThemeProvider"; // Ajusta la ruta
+import { useTheme } from "../hooks/useTheme";
 import HomeScreen from "../screens/HomeScreen";
 import CamScreen from "../screens/CamScreen";
 import PetScreen from "../screens/PetScreen";
@@ -10,13 +10,10 @@ import ChartScreen from "../screens/ChartScreen";
 const BottomTab = createMaterialBottomTabNavigator();
 
 const BottomNavigation = () => {
-  const themeContext = useContext(ThemeContext);
+  const { theme } = useTheme();
 
-  if (!themeContext) {
-    return null; // Manejo de error, si no hay contexto
-  }
-
-  const { theme } = themeContext;
+  const [showConfigTab, setShowConfigTab] = useState(false);
+  const [showCocinaTab, setShowCocinaTab] = useState(false);
 
   return (
     <BottomTab.Navigator
@@ -27,11 +24,11 @@ const BottomNavigation = () => {
       barStyle={{ backgroundColor: theme.colors.background }}
     >
       <BottomTab.Screen
-        name="Inicio"
+        name="Home"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="home" color={color} size={36} />
+            <FontAwesome5 name="home" color={color} size={26} />
           ),
         }}
       />
@@ -40,7 +37,7 @@ const BottomNavigation = () => {
         component={CamScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="camera" color={color} size={36} />
+            <FontAwesome5 name="camera" color={color} size={26} />
           ),
         }}
       />
@@ -49,7 +46,7 @@ const BottomNavigation = () => {
         component={PetScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="paw" color={color} size={36} />
+            <FontAwesome5 name="paw" color={color} size={26} />
           ),
         }}
       />
@@ -58,7 +55,7 @@ const BottomNavigation = () => {
         component={ChartScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="prescription-bottle" color={color} size={36} />
+            <FontAwesome5 name="prescription-bottle" color={color} size={26} />
           ),
         }}
       />
