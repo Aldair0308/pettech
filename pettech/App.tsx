@@ -12,6 +12,7 @@ export default function App() {
   );
 }
 
+// Este componente no se usa, así que lo puedes eliminar si no es necesario
 const AppState = ({ children }: { children: React.ReactNode }) => {
   return <AuthProvider>{children}</AuthProvider>;
 };
