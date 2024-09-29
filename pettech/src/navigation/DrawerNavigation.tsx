@@ -6,8 +6,17 @@ import DrawerContent from "./../components/DrawerContent";
 import BottomNavigation from "./BottomNavigation";
 import LoginScreen from "../screens/LoginScreen";
 import { AuthContext } from "../context/AuthContext";
+import { Text, View, StyleSheet } from "react-native";
 
 const Drawer = createDrawerNavigator();
+
+const CustomDrawerLabel = () => {
+  return (
+    <View style={styles.labelContainer}>
+      <Text style={styles.labelText}>El Pueblo</Text>
+    </View>
+  );
+};
 
 const DrawerNavigator: React.FC = () => {
   const context = useContext(AuthContext);
@@ -23,8 +32,22 @@ const DrawerNavigator: React.FC = () => {
       <NavigationContainer>
         <Drawer.Navigator
           drawerContent={(props) => <DrawerContent {...props} />}
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "#4CAF50", // Cambia el color de fondo aquí
+            },
+            drawerStyle: {
+              backgroundColor: "#f5f5f5", // Color de fondo del drawer
+            },
+          }}
         >
-          <Drawer.Screen name="El Pueblo" component={BottomNavigation} />
+          <Drawer.Screen
+            name="Pettech"
+            component={BottomNavigation}
+            options={{
+              drawerLabel: () => <CustomDrawerLabel />,
+            }}
+          />
           {/* Agrega más pantallas de Drawer si es necesario */}
         </Drawer.Navigator>
       </NavigationContainer>
@@ -33,5 +56,20 @@ const DrawerNavigator: React.FC = () => {
     return <LoginScreen />;
   }
 };
+
+const styles = StyleSheet.create({
+  labelContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 50, // Ajusta la altura según sea necesario
+    width: "100%", // Asegura que ocupe todo el ancho
+  },
+  labelText: {
+    fontSize: 20, // Ajusta el tamaño de fuente
+    fontWeight: "bold", // Opcional: cambia el peso de la fuente
+    textAlign: "center", // Asegura que el texto esté centrado
+  },
+});
 
 export default DrawerNavigator;

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../hooks/useTheme";
 import LogoutButtonComponent from "././LogoutButtonComponent"; // Importa el nuevo componente de botón de cierre de sesión
-// import ShowImageHookComponent from "./ShowImageHookComponent";
+import ShowImageHookComponent from "./ShowImageHookComponent";
 
 const DrawerContent = () => {
   const navigation = useNavigation();
@@ -17,7 +17,7 @@ const DrawerContent = () => {
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      {/* <ShowImageHookComponent /> */}
+      <ShowImageHookComponent />
 
       <TouchableOpacity
         onPress={toggleTheme}

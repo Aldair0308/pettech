@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface User {
-  id: number;
+  _id: string; // Cambiado a string para que coincida con el formato de MongoDB
   name: string;
   email: string;
-  password: string;
+  password: string; // Asegúrate de que este campo esté protegido y no se exponga innecesariamente
   rol: string;
   photo: string;
 }
@@ -17,7 +17,7 @@ export const useUserHook = () => {
   const obtenerIdDelUsuario = async () => {
     try {
       const userId = await AsyncStorage.getItem("userId");
-      return userId ? parseInt(userId) : null; // Parsea el ID a número o devuelve null si no hay ID
+      return userId; // No lo parses a número, déjalo como string
     } catch (error) {
       console.error("Error fetching user ID from AsyncStorage:", error);
       return null;
@@ -31,10 +31,12 @@ export const useUserHook = () => {
         throw new Error("User ID not found in AsyncStorage");
       }
       const response = await fetch(
-        `https://pueblo-nest-production.up.railway.app/api/v1/users/${userId}`
+        `https://alimentador-production.up.railway.app/users/id/${userId}`
       );
       if (!response.ok) {
-        throw new Error(`Failed to fetch user data: ${response.statusText}`);
+        throw new Error(
+          `Failed to fetch user data: ${response.statusText} y tiene el id ${userId}`
+        );
       }
       const userData = await response.json();
       setUser(userData);

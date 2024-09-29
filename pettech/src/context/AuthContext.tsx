@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer, ReactNode } from "react";
-import { authReducer } from "././AuthReducer";
+import React, { createContext, useReducer, ReactNode } from "react";
+import { authReducer } from "./AuthReducer"; // Asegúrate de que la ruta sea correcta
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Importa AsyncStorage
 
 // Define la interfaz Input que se utiliza en AuthState
@@ -8,7 +8,7 @@ interface Input {
 }
 
 export interface LoginResponse {
-  id: number;
+  _id: string; // Asegúrate de que _id sea un string
   email: string;
   photo: string;
   rol: string;
@@ -21,11 +21,11 @@ export interface AuthState extends LoginResponse {
 
 export const AuthInitialState: AuthState = {
   isLoggedIn: false,
-  id: 0, // Inicializa el id del usuario como 0
+  _id: "", // Inicializa el id del usuario como una cadena vacía
   email: "",
   photo: "",
   rol: "",
-  name: "", // Inicializa la foto del usuario como una cadena vacía
+  name: "", // Inicializa el nombre del usuario como una cadena vacía
 };
 
 type AuthAction =
@@ -37,7 +37,7 @@ type AuthAction =
 
 export interface AuthContextProps {
   authState: AuthState;
-  signIn: (response: LoginResponse) => void;
+  signIn: (response: { accessToken: string; user: LoginResponse }) => void;
   logout: () => void;
   changeUserName: (userName: string) => void;
   changeFavImage: (sourceImage: string) => void;
@@ -49,12 +49,22 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authState, dispatch] = useReducer(authReducer, AuthInitialState);
 
-  const signIn = (response: LoginResponse) => {
-    dispatch({ type: "signIn", payload: response });
-    // Guarda el id y la foto del usuario en AsyncStorage al iniciar sesión
-    AsyncStorage.setItem("userId", response.id.toString())
+  const signIn = (response: { accessToken: string; user: LoginResponse }) => {
+    const user = response.user; // Extraer el usuario de la respuesta
+
+    // Comprobación de que el ID es correcto
+    console.log("User ID:", user._id);
+    if (user._id.length < 24) {
+      console.error("El ID del usuario es inválido:", user._id);
+      return;
+    }
+
+    dispatch({ type: "signIn", payload: user });
+
+    // Guarda el id y otros datos del usuario en AsyncStorage al iniciar sesión
+    AsyncStorage.setItem("userId", user._id)
       .then(() =>
-        console.log("Id del usuario guardado en AsyncStorage:", response.id)
+        console.log("Id del usuario guardado en AsyncStorage:", user._id)
       )
       .catch((error) =>
         console.error(
@@ -62,12 +72,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           error
         )
       );
-    AsyncStorage.setItem("userPhoto", response.photo)
+
+    AsyncStorage.setItem("userPhoto", user.photo)
       .then(() =>
-        console.log(
-          "Foto del usuario guardada en AsyncStorage:",
-          response.photo
-        )
+        console.log("Foto del usuario guardada en AsyncStorage:", user.photo)
       )
       .catch((error) =>
         console.error(
@@ -75,26 +83,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           error
         )
       );
-    AsyncStorage.setItem("userRol", response.rol)
+
+    AsyncStorage.setItem("userRol", user.rol)
       .then(() =>
-        console.log("Rol del usuario guardado en AsyncStorage:", response.rol)
+        console.log("Rol del usuario guardado en AsyncStorage:", user.rol)
       )
       .catch((error) =>
         console.error(
-          "Error al guardar la foto del usuario en AsyncStorage:",
+          "Error al guardar el rol del usuario en AsyncStorage:",
           error
         )
       );
-    AsyncStorage.setItem("userName", response.name.toString())
+
+    AsyncStorage.setItem("userName", user.name)
       .then(() =>
-        console.log(
-          "Nombre del usuario guardado en AsyncStorage:",
-          response.name
-        )
+        console.log("Nombre del usuario guardado en AsyncStorage:", user.name)
       )
       .catch((error) =>
         console.error(
-          "Error al guardar la foto del usuario en AsyncStorage:",
+          "Error al guardar el nombre del usuario en AsyncStorage:",
           error
         )
       );
@@ -102,7 +109,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     dispatch({ type: "logout" });
-    // Elimina el id y la foto del usuario de AsyncStorage al cerrar sesión
+
+    // Elimina el id y otros datos del usuario de AsyncStorage al cerrar sesión
     AsyncStorage.removeItem("userId")
       .then(() =>
         console.log("Id del usuario eliminado de AsyncStorage al cerrar sesión")
@@ -113,6 +121,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           error
         )
       );
+
     AsyncStorage.removeItem("userPhoto")
       .then(() =>
         console.log(
@@ -125,6 +134,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           error
         )
       );
+
     AsyncStorage.removeItem("userRol")
       .then(() =>
         console.log(
@@ -133,10 +143,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       )
       .catch((error) =>
         console.error(
-          "Error al eliminar la Rol del usuario de AsyncStorage:",
+          "Error al eliminar el rol del usuario de AsyncStorage:",
           error
         )
       );
+
     AsyncStorage.removeItem("userName")
       .then(() =>
         console.log(
@@ -145,7 +156,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       )
       .catch((error) =>
         console.error(
-          "Error al eliminar la Nombre del usuario de AsyncStorage:",
+          "Error al eliminar el nombre del usuario de AsyncStorage:",
           error
         )
       );
@@ -155,9 +166,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         authState,
-
         signIn,
-
         logout,
       }}
     >
