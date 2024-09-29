@@ -33,8 +33,15 @@ const DrawerNavigator: React.FC = () => {
         <Drawer.Navigator
           drawerContent={(props) => <DrawerContent {...props} />}
           screenOptions={{
+            headerShown: true, // Asegúrate de que el encabezado se muestre
+            headerTitleAlign: "center", // Centra el título del encabezado
             headerStyle: {
-              backgroundColor: "#4CAF50", // Cambia el color de fondo aquí
+              backgroundColor: "#cf70be", // Color de fondo del encabezado
+            },
+            headerTintColor: "#FFF", // Color del texto del encabezado
+            headerTitleStyle: {
+              fontWeight: "bold",
+              fontSize: 22, // Ajusta el tamaño de la fuente según lo necesites
             },
             drawerStyle: {
               backgroundColor: "#f5f5f5", // Color de fondo del drawer
