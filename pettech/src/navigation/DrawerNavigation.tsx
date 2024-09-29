@@ -1,4 +1,3 @@
-// DrawerNavigator.tsx
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -7,6 +6,7 @@ import BottomNavigation from "./BottomNavigation";
 import LoginScreen from "../screens/LoginScreen";
 import { AuthContext } from "../context/AuthContext";
 import { Text, View, StyleSheet } from "react-native";
+import { ThemeContext } from "./../hooks/ThemeProvider"; // Importa el ThemeContext
 
 const Drawer = createDrawerNavigator();
 
@@ -19,32 +19,42 @@ const CustomDrawerLabel = () => {
 };
 
 const DrawerNavigator: React.FC = () => {
-  const context = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  const themeContext = useContext(ThemeContext); // Consumiendo el contexto de tema
 
-  if (!context) {
+  if (!authContext) {
     throw new Error("DrawerNavigator must be used within an AuthProvider");
   }
 
-  const { authState } = context;
+  const { authState } = authContext;
 
   if (authState.isLoggedIn) {
+    if (!themeContext) {
+      throw new Error("DrawerNavigator must be used within a ThemeProvider");
+    }
+
+    const { theme } = themeContext; // Obtiene el tema actual
+
     return (
       <NavigationContainer>
         <Drawer.Navigator
           drawerContent={(props) => <DrawerContent {...props} />}
           screenOptions={{
-            headerShown: true, // Asegúrate de que el encabezado se muestre
-            headerTitleAlign: "center", // Centra el título del encabezado
+            headerShown: true,
+            headerTitleAlign: "center",
             headerStyle: {
-              backgroundColor: "#cf70be", // Color de fondo del encabezado
+              backgroundColor: theme.colors.primary, // Color de fondo del encabezado
             },
-            headerTintColor: "#FFF", // Color del texto del encabezado
+            headerTintColor: theme.colors.text, // Color del texto del encabezado
             headerTitleStyle: {
               fontWeight: "bold",
-              fontSize: 22, // Ajusta el tamaño de la fuente según lo necesites
+              fontSize: 22,
             },
             drawerStyle: {
-              backgroundColor: "#f5f5f5", // Color de fondo del drawer
+              backgroundColor: theme.colors.background, // Color de fondo del drawer
+            },
+            drawerLabelStyle: {
+              color: theme.colors.text, // Color del texto del drawer
             },
           }}
         >
@@ -69,13 +79,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: 50, // Ajusta la altura según sea necesario
-    width: "100%", // Asegura que ocupe todo el ancho
+    height: 50,
+    width: "100%",
   },
   labelText: {
-    fontSize: 20, // Ajusta el tamaño de fuente
-    fontWeight: "bold", // Opcional: cambia el peso de la fuente
-    textAlign: "center", // Asegura que el texto esté centrado
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

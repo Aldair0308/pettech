@@ -1,5 +1,12 @@
 import React, { createContext, useState, ReactNode } from "react";
-import { lightTheme, darkTheme } from "./../themes/appTheme";
+import {
+  lightTheme,
+  darkTheme,
+  blueTheme,
+  greenTheme,
+} from "./../themes/appTheme";
+
+const themes = [lightTheme, darkTheme, blueTheme, greenTheme];
 
 interface Theme {
   container: object;
@@ -12,18 +19,31 @@ interface ThemeProviderProps {
 }
 
 export const ThemeContext = createContext<
-  { theme: Theme; toggleTheme: () => void } | undefined
+  | {
+      theme: Theme;
+      nextTheme: () => void;
+      prevTheme: () => void;
+    }
+  | undefined
 >(undefined);
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState<Theme>(lightTheme);
+  const [currentThemeIndex, setCurrentThemeIndex] = useState(0);
 
-  const toggleTheme = () => {
-    setCurrentTheme(currentTheme === lightTheme ? darkTheme : lightTheme);
+  const nextTheme = () => {
+    setCurrentThemeIndex((prevIndex) => (prevIndex + 1) % themes.length);
+  };
+
+  const prevTheme = () => {
+    setCurrentThemeIndex(
+      (prevIndex) => (prevIndex - 1 + themes.length) % themes.length
+    );
   };
 
   return (
-    <ThemeContext.Provider value={{ theme: currentTheme, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{ theme: themes[currentThemeIndex], nextTheme, prevTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );

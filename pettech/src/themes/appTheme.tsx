@@ -2,11 +2,11 @@ import { StyleSheet } from "react-native";
 
 export const lightTheme = {
   colors: {
-    primary: "#007BFF", // Azul claro
-    text: "#1A1A1A", // Texto negro
-    background: "#F0F4F8", // Color de fondo suave
-    buttonBackground: "#FF6F61", // Color coral para botones
-    buttonText: "white", // Color del texto de los botones
+    primary: "#4A90E2", // Azul suave
+    text: "#2C3E50", // Texto oscuro
+    background: "#ECF0F1", // Color de fondo suave
+    buttonBackground: "#E74C3C", // Rojo vibrante para botones
+    buttonText: "white",
   },
   styles: StyleSheet.create({
     container: {
@@ -15,7 +15,7 @@ export const lightTheme = {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#F0F4F8",
+      backgroundColor: "#ECF0F1",
     },
     containerSet: {
       width: "90%",
@@ -24,18 +24,18 @@ export const lightTheme = {
       margin: 8,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#E0E7FF", // Color azul claro
+      backgroundColor: "#D5DBDB", // Color gris claro
     },
     text: {
       fontSize: 18,
       fontWeight: "bold",
-      color: "#333333", // Texto gris oscuro
+      color: "#2C3E50",
     },
     button: {
       padding: 10,
       borderRadius: 5,
       marginTop: 20,
-      backgroundColor: "#FF6F61", // Coral
+      backgroundColor: "#E74C3C",
     },
     buttonText: {
       fontWeight: "bold",
@@ -46,11 +46,11 @@ export const lightTheme = {
 
 export const darkTheme = {
   colors: {
-    primary: "#1A1A1A", // Gris oscuro
-    text: "#E0E0E0", // Texto claro
-    background: "#121212", // Fondo oscuro
-    buttonBackground: "#BB86FC", // Morado claro para botones
-    buttonText: "white", // Color del texto de los botones
+    primary: "#34495E", // Azul oscuro
+    text: "#ECF0F1", // Texto claro
+    background: "#2C3E50", // Fondo oscuro
+    buttonBackground: "#E67E22", // Naranja vibrante para botones
+    buttonText: "white",
   },
   styles: StyleSheet.create({
     container: {
@@ -59,7 +59,7 @@ export const darkTheme = {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#1A1A1A",
+      backgroundColor: "#2C3E50",
     },
     containerSet: {
       width: "90%",
@@ -68,18 +68,106 @@ export const darkTheme = {
       margin: 8,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#1F1F1F", // Gris más claro
+      backgroundColor: "#34495E", // Azul más claro
     },
     text: {
       fontSize: 18,
       fontWeight: "bold",
-      color: "#E0E0E0", // Texto claro
+      color: "#ECF0F1",
     },
     button: {
       padding: 10,
       borderRadius: 5,
       marginTop: 20,
-      backgroundColor: "#BB86FC", // Morado
+      backgroundColor: "#E67E22",
+    },
+    buttonText: {
+      fontWeight: "bold",
+      color: "white",
+    },
+  }),
+};
+
+export const blueTheme = {
+  colors: {
+    primary: "#3B5998",
+    text: "#FFFFFF",
+    background: "#8B9DC3",
+    buttonBackground: "#4B7BE5",
+    buttonText: "white",
+  },
+  styles: StyleSheet.create({
+    container: {
+      borderRadius: 10,
+      margin: 8,
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#8B9DC3",
+    },
+    containerSet: {
+      width: "90%",
+      height: "90%",
+      borderRadius: 10,
+      margin: 8,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#A4C8E1",
+    },
+    text: {
+      fontSize: 18,
+      fontWeight: "bold",
+      color: "#FFFFFF",
+    },
+    button: {
+      padding: 10,
+      borderRadius: 5,
+      marginTop: 20,
+      backgroundColor: "#4B7BE5",
+    },
+    buttonText: {
+      fontWeight: "bold",
+      color: "white",
+    },
+  }),
+};
+
+export const greenTheme = {
+  colors: {
+    primary: "#28A745",
+    text: "#FFFFFF",
+    background: "#C3E6CB",
+    buttonBackground: "#218838",
+    buttonText: "white",
+  },
+  styles: StyleSheet.create({
+    container: {
+      borderRadius: 10,
+      margin: 8,
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#C3E6CB",
+    },
+    containerSet: {
+      width: "90%",
+      height: "90%",
+      borderRadius: 10,
+      margin: 8,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#D4EDDA",
+    },
+    text: {
+      fontSize: 18,
+      fontWeight: "bold",
+      color: "#FFFFFF",
+    },
+    button: {
+      padding: 10,
+      borderRadius: 5,
+      marginTop: 20,
+      backgroundColor: "#218838",
     },
     buttonText: {
       fontWeight: "bold",
