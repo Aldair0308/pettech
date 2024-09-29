@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useTheme } from "../hooks/useTheme";
+import { ThemeContext } from "../hooks/ThemeProvider"; // Ajusta la ruta
 import HomeScreen from "../screens/HomeScreen";
+import CamScreen from "../screens/CamScreen";
+import PetScreen from "../screens/PetScreen";
+import ChartScreen from "../screens/ChartScreen";
 
 const BottomTab = createMaterialBottomTabNavigator();
 
 const BottomNavigation = () => {
-  const { theme } = useTheme();
+  const themeContext = useContext(ThemeContext);
 
-  const [showConfigTab, setShowConfigTab] = useState(false);
-  const [showCocinaTab, setShowCocinaTab] = useState(false);
+  if (!themeContext) {
+    return null; // Manejo de error, si no hay contexto
+  }
+
+  const { theme } = themeContext;
 
   return (
     <BottomTab.Navigator
@@ -21,11 +27,38 @@ const BottomNavigation = () => {
       barStyle={{ backgroundColor: theme.colors.background }}
     >
       <BottomTab.Screen
-        name="Home"
+        name="Inicio"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="table" color={color} size={26} />
+            <FontAwesome5 name="home" color={color} size={36} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Camara"
+        component={CamScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="camera" color={color} size={36} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Mascota"
+        component={PetScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="paw" color={color} size={36} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Alimento"
+        component={ChartScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="prescription-bottle" color={color} size={36} />
           ),
         }}
       />
