@@ -13,7 +13,7 @@ const Drawer = createDrawerNavigator();
 const CustomDrawerLabel = () => {
   return (
     <View style={styles.labelContainer}>
-      <Text style={styles.labelText}>PETTECH</Text>
+      <Text style={styles.labelText}>Pettech</Text>
     </View>
   );
 };
