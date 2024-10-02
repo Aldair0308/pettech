@@ -16,7 +16,7 @@ const CustomButton = ({ navigation, screenName, title }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#566ec4", // Cambia el color de fondo según lo desees
+    backgroundColor: "#6a7dc5", // Cambia el color de fondo según lo desees
     padding: 15,
     borderRadius: 50,
     alignItems: "center",
