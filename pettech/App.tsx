@@ -1,12 +1,12 @@
 import { ThemeProvider } from "./src/hooks/ThemeProvider";
-import DrawerNavigator from "./src/navigation/DrawerNavigation";
 import { AuthProvider } from "./src/context/AuthContext";
+import MainStackNavigator from "./src/navigation/StackNavigator";
 
 export default function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <DrawerNavigator />
+        <MainStackNavigator />
       </ThemeProvider>
     </AuthProvider>
   );

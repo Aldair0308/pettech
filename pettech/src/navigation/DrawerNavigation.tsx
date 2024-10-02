@@ -36,38 +36,36 @@ const DrawerNavigator: React.FC = () => {
     const { theme } = themeContext; // Obtiene el tema actual
 
     return (
-      <NavigationContainer>
-        <Drawer.Navigator
-          drawerContent={(props) => <DrawerContent {...props} />}
-          screenOptions={{
-            headerShown: true,
-            headerTitleAlign: "center",
-            headerStyle: {
-              backgroundColor: theme.colors.primary, // Color de fondo del encabezado
-            },
-            headerTintColor: theme.colors.text, // Color del texto del encabezado
-            headerTitleStyle: {
-              fontWeight: "bold",
-              fontSize: 22,
-            },
-            drawerStyle: {
-              backgroundColor: theme.colors.background, // Color de fondo del drawer
-            },
-            drawerLabelStyle: {
-              color: theme.colors.text, // Color del texto del drawer
-            },
+      <Drawer.Navigator
+        drawerContent={(props) => <DrawerContent {...props} />}
+        screenOptions={{
+          headerShown: true,
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: theme.colors.primary, // Color de fondo del encabezado
+          },
+          headerTintColor: theme.colors.text, // Color del texto del encabezado
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 22,
+          },
+          drawerStyle: {
+            backgroundColor: theme.colors.background, // Color de fondo del drawer
+          },
+          drawerLabelStyle: {
+            color: theme.colors.text, // Color del texto del drawer
+          },
+        }}
+      >
+        <Drawer.Screen
+          name="Pettech"
+          component={BottomNavigation}
+          options={{
+            drawerLabel: () => <CustomDrawerLabel />,
           }}
-        >
-          <Drawer.Screen
-            name="Pettech"
-            component={BottomNavigation}
-            options={{
-              drawerLabel: () => <CustomDrawerLabel />,
-            }}
-          />
-          {/* Agrega más pantallas de Drawer si es necesario */}
-        </Drawer.Navigator>
-      </NavigationContainer>
+        />
+        {/* Agrega más pantallas de Drawer si es necesario */}
+      </Drawer.Navigator>
     );
   } else {
     return <LoginScreen />;
