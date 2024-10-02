@@ -17,7 +17,6 @@ const RegisterScreen = ({ navigation }) => {
       >
         <Text style={[theme.text]}>Register</Text>
         <View>
-          <Text>Bienvenido a la App</Text>
           <Button
             title="Continuar"
             onPress={() => navigation.navigate("Registro")}

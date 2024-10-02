@@ -15,12 +15,15 @@ const WelcomeScreen = ({ navigation }) => {
           { paddingHorizontal: 20, paddingTop: 20 },
         ]}
       >
-        <Text style={[theme.text]}>Camara</Text>
         <View>
-          <Text>Bienvenido a la App</Text>
+          <Text>Bienvenido a Pettech</Text>
           <Button
-            title="Continuar"
+            title="Crear una cuenta"
             onPress={() => navigation.navigate("Register")}
+          />
+          <Button
+            title="Ya tengo Cuenta"
+            onPress={() => navigation.navigate("App")}
           />
         </View>
       </View>
