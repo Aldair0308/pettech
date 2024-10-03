@@ -12,7 +12,6 @@ import {
 import { AuthContext } from "../context/AuthContext";
 import { login } from "../api/auth"; // Importa la función de inicio de sesión desde tu API
 import { useTheme } from "../hooks/useTheme"; // Importa el hook useTheme para utilizar el ThemeProvider
-import RegisterScreen from "./RegisterScreen";
 
 const LoginScreen = ({ navigation }) => {
   const { signIn } = useContext(AuthContext);
@@ -23,12 +22,9 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      // Llama a la función de inicio de sesión de tu API
       const response = await login({ email, password });
-      // Maneja la respuesta de la API
       signIn(response); // Envía los datos de inicio de sesión al contexto de autenticación
     } catch (error) {
-      // Maneja los errores de inicio de sesión
       setError(
         "Hubo un error al iniciar sesión. Por favor, inténtalo de nuevo."
       );

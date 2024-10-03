@@ -21,7 +21,7 @@ const LogoutButtonComponent: React.FC<LogoutButtonProps> = ({
     // Realizar la acción de cierre de sesión
     logout();
     // Navegar a la pantalla de inicio de sesión
-    navigation.navigate("Login");
+    navigation.navigate("App");
   };
 
   return (

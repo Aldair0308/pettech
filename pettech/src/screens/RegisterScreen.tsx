@@ -45,7 +45,7 @@ const RegisterScreen = ({ navigation }) => {
         setModalMessage("Usuario creado exitosamente");
         setModalVisible(true);
         setTimeout(() => {
-          navigation.navigate("Login"); // Navegar a la pantalla de login
+          navigation.navigate("App"); // Navegar a la pantalla de login
         }, 2000); // Navegar después de 2 segundos
       } else {
         setModalMessage(data.message || "Error al crear usuario");
@@ -70,7 +70,7 @@ const RegisterScreen = ({ navigation }) => {
         <Text style={styles.title}>cuenta</Text>
         <View style={{ flexDirection: "row", marginBottom: 30 }}>
           <Text style={styles.registerText}> Ya tienes cuenta? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <TouchableOpacity onPress={() => navigation.navigate("App")}>
             <Text style={styles.registerText}>Inicia sesión</Text>
           </TouchableOpacity>
         </View>
