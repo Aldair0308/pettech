@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   registerText: {
     fontSize: 15,
     color: "#5d73c4",
+    marginBottom: 28,
   },
   promtText: {
     fontSize: 15,
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "90%",
-    height: 60,
+    height: 50,
     backgroundColor: "white",
     borderRadius: 50,
     marginBottom: 20,
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
+    marginTop: 29,
   },
   buttonText: {
     color: "white",
