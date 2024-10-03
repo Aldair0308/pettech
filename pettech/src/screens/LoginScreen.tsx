@@ -12,8 +12,9 @@ import {
 import { AuthContext } from "../context/AuthContext";
 import { login } from "../api/auth"; // Importa la función de inicio de sesión desde tu API
 import { useTheme } from "../hooks/useTheme"; // Importa el hook useTheme para utilizar el ThemeProvider
+import RegisterScreen from "./RegisterScreen";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const { signIn } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +43,15 @@ const LoginScreen = () => {
       />
       <View style={styles.content}>
         <Text style={styles.title}>Iniciar Sesión</Text>
+        <View style={{ flexDirection: "row", marginBottom: 30 }}>
+          <Text style={styles.registerText}> No tienes una cuenta? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+            <Text style={styles.registerText}>Registrate</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ width: "80%" }}>
+          <Text style={styles.promtText}> Ingresa tu correo</Text>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Correo Electrónico"
@@ -49,6 +59,9 @@ const LoginScreen = () => {
           value={email}
           keyboardType="email-address"
         />
+        <View style={{ width: "80%" }}>
+          <Text style={styles.promtText}> Ingresa tu contraseña</Text>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Contraseña"
@@ -58,7 +71,7 @@ const LoginScreen = () => {
         />
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
       </View>
       <Image
@@ -73,6 +86,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "rgba(255, 255, 255, 0.95)",
+  },
+  registerText: {
+    fontSize: 15,
+    color: "#5d73c4",
+  },
+  promtText: {
+    fontSize: 15,
+    color: "gray",
+    marginBottom: 3,
   },
   headerImage: {
     width: "100%",
@@ -91,13 +113,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 44,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 10,
     color: "#8396dc",
   },
   input: {
-    width: 300,
+    width: "90%",
     height: 60,
-    backgroundColor: "#98B8EC",
+    backgroundColor: "white",
     borderRadius: 50,
     marginBottom: 20,
     paddingHorizontal: 15,

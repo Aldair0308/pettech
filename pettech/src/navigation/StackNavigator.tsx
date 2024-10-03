@@ -4,7 +4,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeScreen from "./../screens/WelcomeScreen";
 import RegisterScreen from "./../screens/RegisterScreen";
 import RegistroScreen from "./../screens/RegistroScreen";
-import AppContainerScreen from "./../screens/AppContainerScreen"; // Importa el contenedor del drawer
 import LoginScreen from "./../screens/LoginScreen";
 import { AuthContext } from "../context/AuthContext";
 import DrawerNavigator from "./DrawerNavigation";
@@ -21,6 +20,7 @@ const MainStackNavigator: React.FC = () => {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="App" component={DrawerNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
