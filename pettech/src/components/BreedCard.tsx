@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   Text,
   Image,
   StyleSheet,
   FlatList,
-  ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
-
-// Mapa de imágenes locales
-const images = {
-  Chihuahua: require("./../../assets/photo-chihuahua.jpg"),
-  //   OtroRaza: require("./../../assets/photo-otro.jpg"), // Agrega más razas aquí
-};
+import { useNavigation } from "@react-navigation/native";
 
 interface Breed {
   _id: string;
@@ -26,93 +21,48 @@ interface Breed {
   porcion: number;
   horas: string[];
   info: string;
-  foto?: string; // Campo opcional
+  foto?: string; // Asegúrate de que 'foto' contenga el nombre correcto de la imagen
 }
 
-const BreedCard: React.FC = () => {
-  const [breeds, setBreeds] = useState<Breed[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+interface BreedCardProps {
+  breeds: Breed[];
+}
 
-  useEffect(() => {
-    const fetchBreeds = async () => {
-      try {
-        const response = await fetch(
-          "https://alimentador-production.up.railway.app/breeds"
-        );
-        const data = await response.json();
-        setBreeds(data);
-      } catch (error) {
-        console.error("Error fetching breeds:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+const images = {
+  Chihuahua: require("./../../assets/photo-chihuahua.jpg"),
+  // Agrega otras razas aquí
+};
 
-    fetchBreeds();
-  }, []);
+const BreedCard: React.FC<BreedCardProps> = ({ breeds }) => {
+  const navigation = useNavigation();
+
+  const handlePress = (breed: Breed) => {
+    navigation.navigate("BreedDetail", { breed });
+  };
 
   const renderItem = ({ item }: { item: Breed }) => (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => handlePress(item)}>
       <Image
         source={
           images[item.raza] || require("./../../assets/photo-chihuahua.jpg")
-        } // Usa un valor por defecto si no se encuentra la imagen
+        }
         style={styles.image}
       />
       <Text style={styles.title}>{item.raza}</Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Categoría:</Text> {item.categoria}
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Tamaño:</Text> {item.tamaño}
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Vida:</Text> {item.vida}
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Peso:</Text> {item.peso}
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Gramos:</Text> {item.gramos}
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Veces al día:</Text> {item.veces}
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Porción:</Text> {item.porcion} gramos
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Horas de comida:</Text>{" "}
-        {item.horas.join(", ")}
-      </Text>
-      <Text style={styles.infoText}>
-        <Text style={styles.bold}>Información:</Text> {item.info}
-      </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <FlatList
-          data={breeds}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-          contentContainerStyle={styles.list}
-        />
-      )}
-    </View>
+    <FlatList
+      data={breeds}
+      renderItem={renderItem}
+      keyExtractor={(item) => item._id}
+      contentContainerStyle={styles.list}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#f8f8f8",
-  },
   list: {
     paddingBottom: 20,
   },
@@ -132,7 +82,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 250, // Aumenté la altura para resaltar la foto
+    height: 250,
     borderRadius: 8,
     marginBottom: 10,
   },
@@ -140,13 +90,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 8,
-  },
-  infoText: {
-    fontSize: 16,
-    marginBottom: 4,
-  },
-  bold: {
-    fontWeight: "bold",
   },
 });
 

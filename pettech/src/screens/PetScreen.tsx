@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Switch } from "react-native";
 import { useTheme } from "./../hooks/useTheme"; // Importa el hook useTheme
+import CatalogoComponent from "../components/CatologoComponent";
 
 const PetScreen = () => {
   const { theme } = useTheme();
@@ -16,6 +17,7 @@ const PetScreen = () => {
         ]}
       >
         <Text style={[theme.text]}>Tu mascota</Text>
+        <CatalogoComponent />
       </View>
     </View>
   );

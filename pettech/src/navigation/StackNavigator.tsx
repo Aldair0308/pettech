@@ -7,6 +7,8 @@ import RegistroScreen from "./../screens/RegistroScreen";
 import LoginScreen from "./../screens/LoginScreen";
 import { AuthContext } from "../context/AuthContext";
 import DrawerNavigator from "./DrawerNavigation";
+import CatalogoComponent from "../components/CatologoComponent";
+import BreedDetail from "../components/BreedDetail";
 
 const Stack = createStackNavigator();
 
@@ -22,6 +24,8 @@ const MainStackNavigator: React.FC = () => {
         <Stack.Screen name="Registro" component={RegistroScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="App" component={DrawerNavigator} />
+        <Stack.Screen name="Catalogo" component={CatalogoComponent} />
+        <Stack.Screen name="BreedDetail" component={BreedDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

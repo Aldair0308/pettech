@@ -1,18 +1,56 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import FontAwesome from "react-native-vector-icons/FontAwesome"; // Importa FontAwesome
+import { FontAwesome } from "@expo/vector-icons";
+import BreedCard from "./BreedCard"; // Importa el componente donde mostrarás las razas
 
 const CatalogoComponent = () => {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [breeds, setBreeds] = useState<any[]>([]); // Cambia el tipo según tu estructura de datos
 
-  const handleNavigate = (raza: string) => {
-    navigation.navigate("RazaScreen", { raza });
+  const handleNavigate = async (raza: string) => {
+    let url = "";
+
+    switch (raza) {
+      case "Pequeña":
+        url = "http://192.168.100.169:3000/breeds/category/chico";
+        break;
+      case "Mediana":
+        url = "http://192.168.100.169:3000/breeds/category/mediano";
+        break;
+      case "Grande":
+        url = "http://192.168.100.169:3000/breeds/category/grande";
+        break;
+      default:
+        return; // Si no coincide con ninguna categoría, no hace nada
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      setBreeds(data); // Guarda las razas en el estado
+    } catch (error) {
+      console.error("Error fetching breeds:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    setBreeds([]); // Resetea las razas para volver a mostrar las categorías
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>catalogo</Text>
+      <Text style={styles.title}>Catálogo</Text>
 
       <FontAwesome
         name="paw"
@@ -21,29 +59,59 @@ const CatalogoComponent = () => {
         style={styles.petIcon}
       />
 
-      <TouchableOpacity
-        style={styles.catalogoItem}
-        onPress={() => handleNavigate("Pequeña")}
-      >
-        <FontAwesome name="paw" size={50} color="#fff" style={styles.pawIcon} />
-        <Text style={styles.buttonText}>RAZA PEQUEÑA</Text>
-      </TouchableOpacity>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : breeds.length > 0 ? (
+        <>
+          <BreedCard breeds={breeds} />
+          <TouchableOpacity style={styles.resetButton} onPress={handleReset}>
+            <Text style={styles.resetButtonText}>
+              Volver a elegir categoría
+            </Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <>
+          <TouchableOpacity
+            style={styles.catalogoItem}
+            onPress={() => handleNavigate("Pequeña")}
+          >
+            <FontAwesome
+              name="paw"
+              size={50}
+              color="#fff"
+              style={styles.pawIcon}
+            />
+            <Text style={styles.buttonText}>RAZA PEQUEÑA</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.catalogoItem}
-        onPress={() => handleNavigate("Mediana")}
-      >
-        <FontAwesome name="paw" size={50} color="#fff" style={styles.pawIcon} />
-        <Text style={styles.buttonText}>RAZA MEDIANA</Text>
-      </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.catalogoItem}
+            onPress={() => handleNavigate("Mediana")}
+          >
+            <FontAwesome
+              name="paw"
+              size={50}
+              color="#fff"
+              style={styles.pawIcon}
+            />
+            <Text style={styles.buttonText}>RAZA MEDIANA</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.catalogoItem}
-        onPress={() => handleNavigate("Grande")}
-      >
-        <FontAwesome name="paw" size={50} color="#fff" style={styles.pawIcon} />
-        <Text style={styles.buttonText}>RAZA GRANDE</Text>
-      </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.catalogoItem}
+            onPress={() => handleNavigate("Grande")}
+          >
+            <FontAwesome
+              name="paw"
+              size={50}
+              color="#fff"
+              style={styles.pawIcon}
+            />
+            <Text style={styles.buttonText}>RAZA GRANDE</Text>
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 };
@@ -81,6 +149,19 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     color: "#fff",
+    fontWeight: "bold",
+  },
+  resetButton: {
+    backgroundColor: "#FF6A51",
+    borderRadius: 30,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    width: "100%",
+    marginTop: 20,
+  },
+  resetButtonText: {
+    color: "#fff",
+    textAlign: "center",
     fontWeight: "bold",
   },
 });
