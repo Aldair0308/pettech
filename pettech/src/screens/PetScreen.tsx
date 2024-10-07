@@ -13,10 +13,9 @@ const PetScreen = () => {
       <View
         style={[
           theme.styles.containerSet,
-          { paddingHorizontal: 20, paddingTop: 20 },
+          { paddingHorizontal: 0, paddingTop: 0 },
         ]}
       >
-        <Text style={[theme.text]}>Tu mascota</Text>
         <CatalogoComponent />
       </View>
     </View>

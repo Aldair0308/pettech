@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "../hooks/useTheme";
 
 interface Breed {
   _id: string;
@@ -28,8 +29,12 @@ interface BreedCardProps {
   breeds: Breed[];
 }
 
+// Utiliza un guion bajo o guion en lugar de espacios
 const images = {
+  Yorkshire_Terrier: require("./../../assets/Terrier.jpg"),
   Chihuahua: require("./../../assets/photo-chihuahua.jpg"),
+  Pomerania: require("./../../assets/pomerania.jpg"),
+  Pastor_Aleman: require("./../../assets/Terrier.jpg"), // Cambiado
   // Agrega otras razas aquí
 };
 
@@ -40,23 +45,37 @@ const BreedCard: React.FC<BreedCardProps> = ({ breeds }) => {
     navigation.navigate("BreedDetail", { breed });
   };
 
-  const renderItem = ({ item }: { item: Breed }) => (
-    <TouchableOpacity style={styles.card} onPress={() => handlePress(item)}>
-      <Image
-        source={
-          images[item.raza] || require("./../../assets/photo-chihuahua.jpg")
-        }
-        style={styles.image}
-      />
-      <Text style={styles.title}>{item.raza}</Text>
-    </TouchableOpacity>
-  );
+  const { theme } = useTheme();
+
+  const renderItem = ({ item }: { item: Breed }) => {
+    // Reemplaza espacios por guiones bajos para buscar la imagen
+    const breedImageKey = item.raza.replace(/ /g, "_"); // Cambiado
+    const imageSource =
+      images[breedImageKey] || require("./../../assets/photo-chihuahua.jpg");
+
+    return (
+      <TouchableOpacity
+        style={{
+          ...styles.card,
+          backgroundColor: theme.colors.buttonBackground,
+        }}
+        onPress={() => handlePress(item)}
+      >
+        <Image source={imageSource} style={styles.image} />
+        <Text style={{ ...styles.title, color: theme.colors.buttonText }}>
+          {item.raza}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <FlatList
       data={breeds}
       renderItem={renderItem}
       keyExtractor={(item) => item._id}
+      numColumns={2}
+      columnWrapperStyle={styles.row}
       contentContainerStyle={styles.list}
     />
   );
@@ -66,11 +85,15 @@ const styles = StyleSheet.create({
   list: {
     paddingBottom: 20,
   },
+  row: {
+    justifyContent: "space-between",
+  },
   card: {
     backgroundColor: "#fff",
     borderRadius: 8,
     padding: 16,
     marginVertical: 8,
+    width: "48%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -82,14 +105,14 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 250,
+    height: 130,
     borderRadius: 8,
     marginBottom: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 8,
+    marginBottom: 5,
   },
 });
 

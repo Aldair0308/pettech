@@ -5,8 +5,8 @@ export const lightTheme = {
     primary: "#4A90E2", // Azul suave
     text: "#2C3E50", // Texto oscuro
     background: "#ECF0F1", // Color de fondo suave
-    buttonBackground: "#E74C3C", // Rojo vibrante para botones
-    buttonText: "white",
+    buttonBackground: "#F0F0F0", // Rojo vibrante para botones
+    buttonText: "black",
   },
   styles: StyleSheet.create({
     container: {
@@ -24,7 +24,7 @@ export const lightTheme = {
       margin: 8,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#D5DBDB", // Color gris claro
+      backgroundColor: "#F0F0F0", // Color gris claro
     },
     text: {
       fontSize: 18,
