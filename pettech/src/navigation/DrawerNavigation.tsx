@@ -29,7 +29,7 @@ const DrawerNavigator: React.FC = () => {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {authState.isLoggedIn ? (
+      {!authState.isLoggedIn ? (
         <Stack.Screen name="Drawer" component={DrawerComponent} />
       ) : (
         <Stack.Screen name="Login" component={LoginScreen} />

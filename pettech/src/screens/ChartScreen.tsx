@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Switch } from "react-native";
 import { useTheme } from "./../hooks/useTheme"; // Importa el hook useTheme
+import Battery, { Demo } from "../components/Battery";
 
 const ChartScreen = () => {
   const { theme } = useTheme();
@@ -12,10 +13,10 @@ const ChartScreen = () => {
       <View
         style={[
           theme.styles.containerSet,
-          { paddingHorizontal: 20, paddingTop: 20 },
+          { paddingHorizontal: 0, paddingTop: 0 },
         ]}
       >
-        <Text style={[theme.text]}>Nivel de alimento</Text>
+        <Battery level={90} />
       </View>
     </View>
   );
