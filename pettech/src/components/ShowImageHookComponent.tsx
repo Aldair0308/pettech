@@ -6,13 +6,12 @@ import { useTheme } from "./../hooks/useTheme";
 // Define un objeto que mapee los nombres de archivo de las imágenes (sin la extensión) a las rutas de importación
 const photoMap: { [key: string]: any } = {
   photo_user: require("./../../assets/photo_user.jpg"),
-  // photo1: require("./../../assets/photo1.jpg"),
-  // photo2: require("./../../assets/photo2.jpg"),
-  // photo3: require("./../../assets/photo3.jpg"),
-  // photo4: require("./../../assets/photo4.jpg"),
-  // photo5: require("./../../assets/photo5.jpg"),
-  // photo6: require("./../../assets/photo6.jpg"),
-  // Agrega más imágenes aquí según sea necesario
+  photo1: require("./../../assets/photo1.jpg"),
+  photo2: require("./../../assets/photo2.jpg"),
+  photo3: require("./../../assets/photo3.jpg"),
+  photo4: require("./../../assets/photo4.jpg"),
+  photo5: require("./../../assets/photo5.jpg"),
+  photo6: require("./../../assets/photo6.jpg"),
 };
 
 const ShowImageHookComponent: React.FC = () => {

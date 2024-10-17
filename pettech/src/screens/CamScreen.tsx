@@ -1,8 +1,17 @@
 // CamScreen.tsx
 
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Switch } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Switch,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 import { useTheme } from "./../hooks/useTheme"; // Importa el hook useTheme
+import ImageUploader from "../components/ImageUploader";
+import PhotoScreen from "../components/PhotoScreen";
 
 const CamScreen = () => {
   const { theme } = useTheme();
@@ -15,7 +24,11 @@ const CamScreen = () => {
           { paddingHorizontal: 20, paddingTop: 20 },
         ]}
       >
-        <Text style={[theme.text]}>Camara</Text>
+        <SafeAreaView>
+          <ScrollView>
+            <PhotoScreen />
+          </ScrollView>
+        </SafeAreaView>
       </View>
     </View>
   );

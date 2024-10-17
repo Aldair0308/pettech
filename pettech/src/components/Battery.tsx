@@ -6,28 +6,22 @@ interface BatteryProps {
 }
 
 const Battery: React.FC<BatteryProps> = ({ level }) => {
-  // Asegúrate de que el nivel esté en el rango correcto
-  const batteryLevel = Math.max(0, Math.min(100, level));
-
-  // Número de divisiones que queremos dentro de la batería
+  const batteryDisplayLevel = Math.max(0, Math.min(100, level));
   const divisions = 5;
   const divisionHeight = 100 / divisions;
 
   return (
     <View style={styles.batteryContainer}>
       <View style={styles.battery}>
-        {/* Dibujar la batería llena */}
         <View
           style={[
             styles.batteryLevel,
             {
-              height: `${batteryLevel}%`,
-              backgroundColor: batteryLevel > 20 ? "green" : "red",
+              height: `${batteryDisplayLevel}%`,
+              backgroundColor: batteryDisplayLevel > 20 ? "green" : "red",
             },
           ]}
         />
-
-        {/* Dibujar las divisiones */}
         {Array.from({ length: divisions }).map((_, index) => (
           <View
             key={index}
@@ -48,9 +42,9 @@ const styles = StyleSheet.create({
   batteryContainer: {
     alignItems: "center",
     justifyContent: "center",
-    height: 400, // Aumenta la altura al 400%
-    width: 150, // Aumenta el ancho al 150%
-    borderWidth: 4, // Grosor del borde
+    height: 400,
+    width: 150,
+    borderWidth: 4,
     borderColor: "black",
     borderRadius: 10,
     position: "relative",
@@ -69,8 +63,8 @@ const styles = StyleSheet.create({
   divider: {
     position: "absolute",
     width: "100%",
-    height: 4, // Altura de la línea divisoria
-    backgroundColor: "gray", // Cambié el color a blanco
+    height: 4,
+    backgroundColor: "gray",
   },
 });
 

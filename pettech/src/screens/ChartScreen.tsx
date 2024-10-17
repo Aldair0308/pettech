@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Switch } from "react-native";
 import { useTheme } from "./../hooks/useTheme"; // Importa el hook useTheme
 import Battery, { Demo } from "../components/Battery";
+import FullBattery from "../components/FullBattery";
 
 const ChartScreen = () => {
   const { theme } = useTheme();
@@ -16,7 +17,7 @@ const ChartScreen = () => {
           { paddingHorizontal: 0, paddingTop: 0 },
         ]}
       >
-        <Battery level={90} />
+        <FullBattery />
       </View>
     </View>
   );
