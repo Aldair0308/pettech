@@ -5,6 +5,7 @@ import { useTheme } from "../hooks/useTheme";
 import LogoutButtonComponent from "././LogoutButtonComponent"; // Importa el nuevo componente de botón de cierre de sesión
 import ShowImageHookComponent from "./ShowImageHookComponent";
 import ThemeSwitcher from "./ThemeSwitcher";
+import CustomButton from "./CustomButton";
 
 const DrawerContent = () => {
   const navigation = useNavigation();
@@ -19,6 +20,11 @@ const DrawerContent = () => {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <ShowImageHookComponent />
+      <CustomButton
+        navigation={navigation}
+        screenName="CatalogoScreen"
+        title="Catalogo"
+      />
 
       <TouchableOpacity
         onPress={toggleTheme}

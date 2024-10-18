@@ -1,11 +1,11 @@
-// PetScreen.tsx
+// Screen.tsx
 
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Switch } from "react-native";
 import { useTheme } from "./../hooks/useTheme"; // Importa el hook useTheme
 import CatalogoComponent from "../components/CatologoComponent";
 
-const PetScreen = () => {
+const CatalogoScreen = () => {
   const { theme } = useTheme();
 
   return (
@@ -13,11 +13,13 @@ const PetScreen = () => {
       <View
         style={[
           theme.styles.containerSet,
-          { paddingHorizontal: 0, paddingTop: 0 },
+          { paddingHorizontal: 20, paddingTop: 20 },
         ]}
-      ></View>
+      >
+        <CatalogoComponent />
+      </View>
     </View>
   );
 };
 
-export default PetScreen;
+export default CatalogoScreen;

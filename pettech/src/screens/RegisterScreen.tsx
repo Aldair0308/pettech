@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Modal,
 } from "react-native";
-import { useTheme } from "../hooks/useTheme"; // Importa el hook useTheme
+import { AuthContext } from "../context/AuthContext"; // Asegúrate de que la ruta sea correcta
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -18,7 +18,7 @@ const RegisterScreen = ({ navigation }) => {
   const [error, setError] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const { theme } = useTheme(); // Obtiene el theme del ThemeProvider
+  const { signIn } = useContext(AuthContext); // Accede a la función signIn
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
@@ -44,9 +44,22 @@ const RegisterScreen = ({ navigation }) => {
       if (response.ok) {
         setModalMessage("Usuario creado exitosamente");
         setModalVisible(true);
+
+        // Llama a signIn con los datos del usuario
+        signIn({
+          accessToken: "", // Si no tienes un token, puedes dejarlo vacío
+          user: {
+            _id: data._id,
+            email: data.email,
+            photo: data.photo,
+            rol: data.rol,
+            name: data.name,
+          },
+        });
+
         setTimeout(() => {
-          navigation.navigate("App"); // Navegar a la pantalla de login
-        }, 2000); // Navegar después de 2 segundos
+          navigation.navigate("Registro"); // Navegar a la pantalla de login
+        }, 2000);
       } else {
         setModalMessage(data.message || "Error al crear usuario");
         setModalVisible(true);
