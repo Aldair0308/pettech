@@ -315,7 +315,7 @@ const PetsScreen = ({ navigation }) => {
         </Modal>
 
         <TouchableOpacity style={styles.button} onPress={handleUpdate}>
-          <Text style={styles.buttonText}>Actualizar</Text>
+          <Text style={styles.buttonText}>SIGN UP</Text>
         </TouchableOpacity>
       </View>
 

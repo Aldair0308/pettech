@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Switch } from "react-native";
 import { useTheme } from "./../hooks/useTheme"; // Importa el hook useTheme
 import ThemeSwitch from "../components/ThemeSwitch";
+import styles from "../themes/petStyles";
 
 const TemaScreen = () => {
   const { theme, toggleTheme } = useTheme();
@@ -16,18 +17,10 @@ const TemaScreen = () => {
           { paddingHorizontal: 20, paddingTop: 20 },
         ]}
       >
-        <Text style={[theme.text]}>Cambiar tema</Text>
+        <Text style={{ ...styles.title, marginBottom: 100 }}>
+          Elige un Tema
+        </Text>
 
-        <TouchableOpacity
-          onPress={toggleTheme}
-          style={{
-            backgroundColor:
-              theme.styles.button.backgroundColor ||
-              theme.colors.buttonBackground,
-          }}
-        >
-          <Text style={{ color: theme.colors.buttonText }}>Cambia Tema</Text>
-        </TouchableOpacity>
         <ThemeSwitch />
       </View>
     </View>
