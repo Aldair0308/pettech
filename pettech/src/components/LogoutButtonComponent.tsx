@@ -27,29 +27,11 @@ const LogoutButtonComponent: React.FC<LogoutButtonProps> = ({
   return (
     <TouchableOpacity
       onPress={handleLogout}
-      style={[styles.button, { backgroundColor: "red" }, buttonStyle]}
+      style={[theme.styles.button, buttonStyle]} // Usar estilos del tema
     >
-      <Text style={[styles.text, { color: "white" }, textStyle]}>
-        Cerrar Sesión
-      </Text>
+      <Text style={[theme.styles.buttonText, textStyle]}>Cerrar Sesión</Text>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    width: 230,
-    height: 70,
-    margin: 15,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-});
 
 export default LogoutButtonComponent;

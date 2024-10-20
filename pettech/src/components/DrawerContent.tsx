@@ -6,6 +6,7 @@ import LogoutButtonComponent from "././LogoutButtonComponent"; // Importa el nue
 import ShowImageHookComponent from "./ShowImageHookComponent";
 import ThemeSwitcher from "./ThemeSwitcher";
 import CustomButton from "./CustomButton";
+import DrawerButton from "./DrawerButton";
 
 const DrawerContent = () => {
   const navigation = useNavigation();
@@ -20,17 +21,18 @@ const DrawerContent = () => {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <ShowImageHookComponent />
-      <CustomButton
+      <DrawerButton
         navigation={navigation}
         screenName="Perfil"
         title="Perfil"
       />
-      <CustomButton navigation={navigation} screenName="Tema" title="Tema" />
-      <CustomButton
+      <DrawerButton navigation={navigation} screenName="Tema" title="Tema" />
+      <DrawerButton
         navigation={navigation}
         screenName="CatalogoScreen"
         title="Catalogo"
       />
+      <LogoutButtonComponent />
     </View>
   );
 };
