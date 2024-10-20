@@ -24,7 +24,7 @@ const BottomNavigation = () => {
       barStyle={{ backgroundColor: theme.colors.background }}
     >
       <BottomTab.Screen
-        name="Home"
+        name="Inicio"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color }) => (
