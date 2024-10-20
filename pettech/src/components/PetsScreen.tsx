@@ -1,25 +1,18 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Modal,
-} from "react-native";
-import { useTheme } from "../hooks/useTheme"; // Importa el hook useTheme
-import { Picker } from "@react-native-picker/picker"; // Importa el Picker
-import styles from "./../themes/registroStyles";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
+import { useTheme } from "../hooks/useTheme";
+import { Picker } from "@react-native-picker/picker";
+import styles from "./../themes/petStyles";
 
-const RegistroScreen = ({ navigation }) => {
-  const [error, setError] = useState(""); // Añade esta línea al inicio de tu componente
+const PetsScreen = ({ navigation }) => {
+  const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [categoria, setCategoria] = useState("");
   const [raza, setRaza] = useState("");
   const [edad, setEdad] = useState("");
   const [gramos, setGramos] = useState("");
   const [veces, setVeces] = useState("");
-  const [horas, setHoras] = useState([]); // Inicializar un array vacío para las horas
+  const [horas, setHoras] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -27,13 +20,75 @@ const RegistroScreen = ({ navigation }) => {
   const [selectedHour, setSelectedHour] = useState(0);
   const [selectedMinute, setSelectedMinute] = useState(0);
   const [selectedTime, setSelectedTime] = useState("");
+  const [id, setId] = useState("");
 
   const { theme } = useTheme();
 
-  const handleRegister = async () => {
+  useEffect(() => {
+    const fetchPetData = async () => {
+      try {
+        const response = await fetch("http://192.168.100.169:3000/pets/last");
+        const data = await response.json();
+
+        if (response.ok) {
+          const { _id, nombre, raza, categoria, gramos, veces, horas, edad } =
+            data;
+          setName(nombre);
+          setRaza(raza);
+          setCategoria(categoria);
+          setEdad(edad);
+          setGramos(gramos.toString());
+          setVeces(veces.toString());
+          setHoras(horas);
+          setId(_id);
+        } else {
+          setModalMessage(
+            data.message || "Error al obtener datos de la mascota"
+          );
+          setModalVisible2(true);
+        }
+      } catch (error) {
+        setModalMessage("Hubo un error al cargar los datos de la mascota.");
+        setModalVisible2(true);
+      }
+    };
+    fetchPetData();
+  }, []);
+
+  const handleUpdate = async () => {
+    if (
+      !name ||
+      !raza ||
+      !categoria ||
+      !edad ||
+      !gramos ||
+      !veces ||
+      horas.length === 0
+    ) {
+      setModalMessage("Por favor completa todos los campos.");
+      setModalVisible2(true);
+      return;
+    }
+
+    const validCategorias = ["pequeño", "mediano", "grande"];
+    if (!validCategorias.includes(categoria)) {
+      setModalMessage("La categoría seleccionada no es válida.");
+      setModalVisible2(true);
+      return;
+    }
+
+    const hourRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+    for (let hora of horas) {
+      if (!hourRegex.test(hora)) {
+        setModalMessage("Una o más horas no son válidas.");
+        setModalVisible2(true);
+        return;
+      }
+    }
+
     try {
-      const response = await fetch("http://192.168.100.169:3000/pets", {
-        method: "POST",
+      const response = await fetch(`http://192.168.100.169:3000/pets/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -43,8 +98,8 @@ const RegistroScreen = ({ navigation }) => {
           categoria: categoria,
           gramos: parseInt(gramos),
           veces: parseInt(veces),
-          porcion: 100, // Valor fijo o dinámico según tu lógica
-          horas: horas, // Aquí se envían las horas en el formato correcto
+          porcion: 100,
+          horas: horas,
           edad: edad,
         }),
       });
@@ -52,18 +107,16 @@ const RegistroScreen = ({ navigation }) => {
       const data = await response.json();
 
       if (response.ok) {
-        setModalMessage("Mascota registrada exitosamente");
+        setModalMessage("Mascota actualizada exitosamente");
         setModalVisible2(true);
-        setTimeout(() => {
-          navigation.navigate("App");
-        }, 2000);
+        setTimeout(() => {}, 2000);
       } else {
-        setModalMessage(data.message || "Error al registrar mascota");
+        setModalMessage(data.message || "Error al actualizar mascota");
         setModalVisible2(true);
       }
     } catch (error) {
       setModalMessage(
-        "Hubo un error al registrar la mascota. Inténtalo de nuevo."
+        "Hubo un error al actualizar la mascota. Inténtalo de nuevo."
       );
       setModalVisible2(true);
     }
@@ -73,9 +126,9 @@ const RegistroScreen = ({ navigation }) => {
     const value = parseInt(text);
     setVeces(value);
     if (value > 0) {
-      setHoras(Array(value).fill("")); // Inicializa el array de horas
+      setHoras(Array(value).fill(""));
     } else {
-      setHoras([]); // Si `veces` es 0, restablece `horas` a un array vacío
+      setHoras([]);
     }
   };
 
@@ -97,46 +150,34 @@ const RegistroScreen = ({ navigation }) => {
 
   const handleHourMinuteSelect = () => {
     if (selectedHour !== null && selectedMinute !== null) {
-      const newTime = selectedTime; // Usamos el tiempo formateado
+      const newTime = selectedTime;
       const newHoras = [...horas];
-      newHoras[selectedHourIndex] = newTime; // Actualiza el tiempo en el índice correspondiente
+      newHoras[selectedHourIndex] = newTime;
       setHoras(newHoras);
-      setModalVisible(false); // Cierra el modal
+      setModalVisible(false);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("./../../assets/Header.jpg")}
-        style={styles.headerImage}
-      />
+    <View>
       <View style={styles.content}>
         <Text style={{ ...styles.title, marginBottom: -15, marginTop: -20 }}>
-          crea el perfil de
+          modifica el perfil
         </Text>
-        <Text style={styles.title}>tu mascota</Text>
-        <View style={{ width: "80%" }}>
-          <Text style={{ ...styles.promtText, marginTop: -5 }}>
-            Ingresa el nombre de tu mascota
-          </Text>
-        </View>
+        <Text style={styles.title}>de tu mascota</Text>
+        <Text style={styles.promtText}>Ingresa el nombre de tu mascota</Text>
         <TextInput
           style={styles.input}
           placeholder="Nombre de tu mascota"
-          onChangeText={(text) => setName(text)}
+          onChangeText={setName}
           value={name}
         />
-        <View style={{ width: "80%" }}>
-          <Text style={styles.promtText}>
-            {" "}
-            selecciona el tamaño de tu mascota
-          </Text>
-        </View>
+        <Text style={styles.promtText}>Ingresa el tamaño de tu mascota</Text>
+
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={categoria}
-            style={styles.picker} // Aplica el estilo aquí
+            style={styles.picker}
             onValueChange={(itemValue) => setCategoria(itemValue)}
           >
             <Picker.Item label="Selecciona un tamaño" value="" />
@@ -145,44 +186,37 @@ const RegistroScreen = ({ navigation }) => {
             <Picker.Item label="Grande" value="grande" />
           </Picker>
         </View>
-
-        <View style={{ width: "80%" }}>
-          <Text style={styles.promtText}>selecciona la raza de tu mascota</Text>
-        </View>
+        <Text style={styles.promtText}>Ingresa la raza de tu mascota</Text>
         <TextInput
           style={styles.input}
           placeholder="Raza de tu mascota"
-          onChangeText={(text) => setRaza(text)}
+          onChangeText={setRaza}
           value={raza}
         />
-        <View style={{ width: "80%" }}>
-          <Text style={styles.promtText}>
-            selecciona la edad de tu mascota{" "}
-          </Text>
-        </View>
+        {/* <Text style={styles.promtText}>Ingresa la edad de tu mascota</Text>
         <TextInput
           style={styles.input}
           placeholder="Edad de tu mascota"
-          onChangeText={(text) => setEdad(text)}
+          onChangeText={setEdad}
           value={edad}
-        />
-        <Text style={styles.registerText}>
-          {" "}
-          Configura su horario de alimentacion{" "}
-        </Text>
-        <View style={{ flexDirection: "row", padding: 10 }}>
-          <View style={{ width: "45%", marginRight: 10 }}>
-            <Text style={styles.promtText}>selecciona los gramos</Text>
+        /> */}
+        <View
+          style={{ flexDirection: "row", padding: 10, alignItems: "center" }}
+        >
+          <View style={{ width: "48%", marginRight: 10 }}>
+            <Text style={{ ...styles.promtText, marginLeft: 12 }}>
+              selecciona los gramos
+            </Text>
             <TextInput
               style={[styles.input, { width: "100%", height: 38 }]}
-              placeholder="Gramos por dia"
-              onChangeText={(text) => setGramos(text)}
+              placeholder="Gramos por día"
+              onChangeText={setGramos}
               value={gramos}
             />
           </View>
-          <View style={{ width: "45%" }}>
+          <View style={{ width: "48%" }}>
             <Text style={{ ...styles.promtText, fontSize: 10 }}>
-              selecciona las cantidades al día
+              veces al día
             </Text>
             <View style={{ ...styles.pickerContainer, height: 38 }}>
               <Picker
@@ -202,26 +236,22 @@ const RegistroScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
-
-        <View style={{ width: "80%", marginTop: -10 }}>
-          <Text style={styles.promtText}> Selecciona el horario</Text>
-        </View>
+        <Text style={styles.promtText}>Selecciona el horario</Text>
         <View style={styles.horas}>
           {horas.map((hora, index) => (
             <TouchableOpacity
-              style={styles.item} // Aplica el estilo aquí
+              style={styles.item}
               key={index}
               onPress={() => {
                 setSelectedHourIndex(index);
-                setModalVisible(true); // Abre el modal para seleccionar hora y minuto
+                setModalVisible(true);
               }}
             >
-              <Text style={styles.promtText}>{hora || "Selecciona hora"}</Text>
+              <Text style={styles.promtText2}>{hora || "Selecciona hora"}</Text>
             </TouchableOpacity>
           ))}
         </View>
 
-        {/* Modal para seleccionar hora y minuto */}
         <Modal
           visible={modalVisible}
           transparent={true}
@@ -233,7 +263,6 @@ const RegistroScreen = ({ navigation }) => {
               <Text style={styles.modalTitle}>
                 Selecciona la hora y minuto:
               </Text>
-
               <View style={styles.pickerContainer2}>
                 <Text style={styles.label}>Selecciona la hora:</Text>
                 <View style={styles.row}>
@@ -250,7 +279,6 @@ const RegistroScreen = ({ navigation }) => {
                   ))}
                 </View>
               </View>
-
               <View style={styles.pickerContainer2}>
                 <Text style={styles.label}>Selecciona los minutos:</Text>
                 <View style={styles.row}>
@@ -267,11 +295,9 @@ const RegistroScreen = ({ navigation }) => {
                   ))}
                 </View>
               </View>
-
               <Text style={styles.selectedTimeText}>
                 Hora seleccionada: {selectedTime}
               </Text>
-
               <TouchableOpacity
                 onPress={handleHourMinuteSelect}
                 style={styles.confirmButton}
@@ -288,11 +314,11 @@ const RegistroScreen = ({ navigation }) => {
           </View>
         </Modal>
 
-        <TouchableOpacity style={styles.button} onPress={handleRegister}>
-          <Text style={styles.buttonText}> SIGN UP</Text>
+        <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+          <Text style={styles.buttonText}>Actualizar</Text>
         </TouchableOpacity>
       </View>
-      {/* Modal para alertas */}
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -315,4 +341,4 @@ const RegistroScreen = ({ navigation }) => {
   );
 };
 
-export default RegistroScreen;
+export default PetsScreen;

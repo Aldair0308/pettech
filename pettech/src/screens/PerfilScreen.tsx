@@ -1,19 +1,11 @@
-// CamScreen.tsx
+// Screen.tsx
 
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Switch,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { View, Text, TouchableOpacity, Switch } from "react-native";
 import { useTheme } from "./../hooks/useTheme"; // Importa el hook useTheme
-import ImageUploader from "../components/ImageUploader";
-import PhotoScreen from "../components/PhotoScreen";
+import LogoutButtonComponent from "../components/LogoutButtonComponent";
 
-const CamScreen = () => {
+const PerfilScreen = () => {
   const { theme } = useTheme();
 
   return (
@@ -23,9 +15,12 @@ const CamScreen = () => {
           theme.styles.containerSet,
           { paddingHorizontal: 20, paddingTop: 20 },
         ]}
-      ></View>
+      >
+        <Text style={[theme.text]}>perfil</Text>
+        <LogoutButtonComponent />
+      </View>
     </View>
   );
 };
 
-export default CamScreen;
+export default PerfilScreen;

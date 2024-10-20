@@ -30,6 +30,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "gray",
     marginBottom: 3,
+    alignSelf: "flex-start",
+    marginLeft: 30,
+  },
+  promtText2: {
+    fontSize: 12,
+    color: "gray",
+    marginBottom: 3,
   },
   headerImage: {
     width: "100%",

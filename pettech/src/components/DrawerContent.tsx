@@ -9,7 +9,7 @@ import CustomButton from "./CustomButton";
 
 const DrawerContent = () => {
   const navigation = useNavigation();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
   const handlePress = (screen: string) => {
     navigation.navigate(screen);
@@ -22,29 +22,14 @@ const DrawerContent = () => {
       <ShowImageHookComponent />
       <CustomButton
         navigation={navigation}
+        screenName="Perfil"
+        title="Perfil"
+      />
+      <CustomButton navigation={navigation} screenName="Tema" title="Tema" />
+      <CustomButton
+        navigation={navigation}
         screenName="CatalogoScreen"
         title="Catalogo"
-      />
-
-      <TouchableOpacity
-        onPress={toggleTheme}
-        style={{
-          ...styles.drawerItem2,
-          backgroundColor:
-            theme.styles.button.backgroundColor ||
-            theme.colors.buttonBackground,
-        }}
-      >
-        <Text
-          style={{ ...styles.drawerItemText, color: theme.colors.buttonText }}
-        >
-          Cambia Tema
-        </Text>
-        <ThemeSwitcher />
-      </TouchableOpacity>
-      <LogoutButtonComponent
-        buttonStyle={styles.drawerItem}
-        textStyle={styles.drawerItemText}
       />
     </View>
   );

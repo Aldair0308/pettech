@@ -10,6 +10,8 @@ import DrawerNavigator from "./DrawerNavigation";
 import CatalogoComponent from "../components/CatologoComponent";
 import BreedDetail from "../components/BreedDetail";
 import CatalogoScreen from "../screens/CatalogoScreen";
+import PerfilScreen from "../screens/PerfilScreen";
+import TemaScreen from "../screens/TemaScreen";
 
 const Stack = createStackNavigator();
 
@@ -28,6 +30,8 @@ const MainStackNavigator: React.FC = () => {
         <Stack.Screen name="Catalogo" component={CatalogoComponent} />
         <Stack.Screen name="CatalogoScreen" component={CatalogoScreen} />
         <Stack.Screen name="BreedDetail" component={BreedDetail} />
+        <Stack.Screen name="Perfil" component={PerfilScreen} />
+        <Stack.Screen name="Tema" component={TemaScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
