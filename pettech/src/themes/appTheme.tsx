@@ -7,6 +7,7 @@ export const lightTheme = {
     background: "#ECF0F1", // Color de fondo suave
     buttonBackground: "#F0F0F0", // Rojo vibrante para botones
     buttonText: "black",
+    hora: "#81248a",
   },
   styles: StyleSheet.create({
     container: {
@@ -51,6 +52,7 @@ export const darkTheme = {
     background: "#2C3E50", // Fondo oscuro
     buttonBackground: "#E67E22", // Naranja vibrante para botones
     buttonText: "white",
+    hora: "white",
   },
   styles: StyleSheet.create({
     container: {
