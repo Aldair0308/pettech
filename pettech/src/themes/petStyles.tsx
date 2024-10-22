@@ -84,24 +84,19 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 26,
   },
+
   modalBackground: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  //   modalContainer: {
-  //     width: 300,
-  //     padding: 20,
-  //     backgroundColor: "white",
-  //     borderRadius: 10,
-  //     alignItems: "center",
-  //   },
-  modalText2: {
-    fontSize: 18,
-    marginBottom: 15,
-    textAlign: "center",
-    color: "white",
+  modalContainer: {
+    width: 300,
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
   },
   modalText: {
     fontSize: 18,
@@ -116,53 +111,6 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: "white",
     fontSize: 16,
-  },
-  //   row: {
-  //     flexDirection: "row",
-  //     flexWrap: "wrap",
-  //     justifyContent: "center",
-  //   },
-  //   option: {
-  //     padding: 10,
-  //     borderWidth: 1,
-  //     borderColor: "#ccc",
-  //     margin: 5,
-  //     borderRadius: 5,
-  //     backgroundColor: "#eaeaea",
-  //   },
-  //   confirmButton: {
-  //     marginTop: 20,
-  //     padding: 10,
-  //     backgroundColor: "green",
-  //     borderRadius: 5,
-  //     alignItems: "center",
-  //   },
-  //   closeButton: {
-  //     marginTop: 10,
-  //     padding: 10,
-  //     backgroundColor: "red",
-  //     borderRadius: 5,
-  //     alignItems: "center",
-  //   },
-
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  card: {
-    width: "80%",
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: "center",
-    fontWeight: "bold",
   },
   pickerContainer2: {
     marginBottom: 20,

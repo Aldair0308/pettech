@@ -27,7 +27,9 @@ const PetsScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchPetData = async () => {
       try {
-        const response = await fetch("http://192.168.100.169:3000/pets/last");
+        const response = await fetch(
+          "https://alimentador-production.up.railway.app/pets/last"
+        );
         const data = await response.json();
 
         if (response.ok) {
@@ -87,22 +89,25 @@ const PetsScreen = ({ navigation }) => {
     }
 
     try {
-      const response = await fetch(`http://192.168.100.169:3000/pets/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nombre: name,
-          raza: raza,
-          categoria: categoria,
-          gramos: parseInt(gramos),
-          veces: parseInt(veces),
-          porcion: 100,
-          horas: horas,
-          edad: edad,
-        }),
-      });
+      const response = await fetch(
+        `https://alimentador-production.up.railway.app/pets/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nombre: name,
+            raza: raza,
+            categoria: categoria,
+            gramos: parseInt(gramos),
+            veces: parseInt(veces),
+            porcion: 100,
+            horas: horas,
+            edad: edad,
+          }),
+        }
+      );
 
       const data = await response.json();
 

@@ -36,7 +36,7 @@ const PerfilForm: React.FC = () => {
 
       // Primero actualiza la información básica
       const response = await fetch(
-        `http://192.168.100.169:3000/users/id/${userId}`,
+        `https://alimentador-production.up.railway.app/users/id/${userId}`,
         {
           method: "PUT",
           headers: {
@@ -57,7 +57,7 @@ const PerfilForm: React.FC = () => {
       // Luego, cambia la contraseña si se proporciona
       if (oldPassword || newPassword) {
         const passwordResponse = await fetch(
-          `http://192.168.100.169:3000/users/change-password/${userId}`,
+          `https://alimentador-production.up.railway.app/users/change-password/${userId}`,
           {
             method: "PUT",
             headers: {

@@ -10,14 +10,7 @@ const CatalogoScreen = () => {
 
   return (
     <View style={[theme.styles.container]}>
-      <View
-        style={[
-          theme.styles.containerSet,
-          { paddingHorizontal: 20, paddingTop: 20 },
-        ]}
-      >
-        <CatalogoComponent />
-      </View>
+      <CatalogoComponent />
     </View>
   );
 };

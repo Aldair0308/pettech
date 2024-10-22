@@ -98,9 +98,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 250,
+    height: 350,
     borderRadius: 10,
-    marginBottom: 15,
+    marginBottom: 1,
   },
   title: {
     fontSize: 28, // Título más grande

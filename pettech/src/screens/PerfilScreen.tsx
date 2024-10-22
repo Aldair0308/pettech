@@ -10,14 +10,7 @@ const PerfilScreen = () => {
 
   return (
     <View style={[theme.styles.container]}>
-      <View
-        style={[
-          theme.styles.containerSet,
-          { paddingHorizontal: 20, paddingTop: 20 },
-        ]}
-      >
-        <PerfilForm />
-      </View>
+      <PerfilForm />
     </View>
   );
 };

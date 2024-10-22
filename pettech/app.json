@@ -22,6 +22,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fecd9c3e-737a-4e2a-ac3a-10f398c3435d"
+      }
+    },
+    "owner": "radial-51"
   }
 }

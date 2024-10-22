@@ -84,19 +84,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  //   modalContainer: {
-  //     width: 300,
-  //     padding: 20,
-  //     backgroundColor: "white",
-  //     borderRadius: 10,
-  //     alignItems: "center",
-  //   },
-  modalText2: {
-    fontSize: 18,
-    marginBottom: 15,
-    textAlign: "center",
-    color: "white",
-  },
   modalText: {
     fontSize: 18,
     marginBottom: 15,
@@ -111,34 +98,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
   },
-  //   row: {
-  //     flexDirection: "row",
-  //     flexWrap: "wrap",
-  //     justifyContent: "center",
-  //   },
-  //   option: {
-  //     padding: 10,
-  //     borderWidth: 1,
-  //     borderColor: "#ccc",
-  //     margin: 5,
-  //     borderRadius: 5,
-  //     backgroundColor: "#eaeaea",
-  //   },
-  //   confirmButton: {
-  //     marginTop: 20,
-  //     padding: 10,
-  //     backgroundColor: "green",
-  //     borderRadius: 5,
-  //     alignItems: "center",
-  //   },
-  //   closeButton: {
-  //     marginTop: 10,
-  //     padding: 10,
-  //     backgroundColor: "red",
-  //     borderRadius: 5,
-  //     alignItems: "center",
-  //   },
-
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -221,6 +180,34 @@ const styles = StyleSheet.create({
     flex: 1, // Cada item ocupa el mismo espacio
     alignItems: "center", // Centra el texto dentro de cada item
     justifyContent: "center", // Centra verticalmente el texto
+  },
+
+  modalBackground2: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer2: {
+    width: 300,
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalText2: {
+    fontSize: 18,
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalButton2: {
+    backgroundColor: "#6a7dc5",
+    padding: 10,
+    borderRadius: 5,
+  },
+  modalButtonText2: {
+    color: "white",
+    fontSize: 16,
   },
 });
 

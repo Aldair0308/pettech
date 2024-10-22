@@ -32,22 +32,25 @@ const RegistroScreen = ({ navigation }) => {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch("http://192.168.100.169:3000/pets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nombre: name,
-          raza: raza,
-          categoria: categoria,
-          gramos: parseInt(gramos),
-          veces: parseInt(veces),
-          porcion: 100, // Valor fijo o dinámico según tu lógica
-          horas: horas, // Aquí se envían las horas en el formato correcto
-          edad: edad,
-        }),
-      });
+      const response = await fetch(
+        "https://alimentador-production.up.railway.app/pets",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nombre: name,
+            raza: raza,
+            categoria: categoria,
+            gramos: parseInt(gramos),
+            veces: parseInt(veces),
+            porcion: 100, // Valor fijo o dinámico según tu lógica
+            horas: horas, // Aquí se envían las horas en el formato correcto
+            edad: edad,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -299,14 +302,14 @@ const RegistroScreen = ({ navigation }) => {
         visible={modalVisible2}
         onRequestClose={() => setModalVisible2(false)}
       >
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
+        <View style={styles.modalBackground2}>
+          <View style={styles.modalContainer2}>
             <Text style={styles.modalText2}>{modalMessage}</Text>
             <TouchableOpacity
-              style={styles.modalButton}
+              style={styles.modalButton2}
               onPress={() => setModalVisible2(false)}
             >
-              <Text style={styles.modalButtonText}>Cerrar</Text>
+              <Text style={styles.modalButtonText2}>Cerrar</Text>
             </TouchableOpacity>
           </View>
         </View>

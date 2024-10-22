@@ -29,7 +29,7 @@ const RegisterScreen = ({ navigation }) => {
 
     try {
       const response = await fetch(
-        "http://192.168.100.169:3000/auth/register",
+        "https://alimentador-production.up.railway.app/auth/register",
         {
           method: "POST",
           headers: {
