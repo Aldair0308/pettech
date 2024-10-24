@@ -6,6 +6,17 @@ const images = {
   Yorkshire_Terrier: require("./../../assets/Terrier.jpg"),
   Chihuahua: require("./../../assets/photo-chihuahua.jpg"),
   Pomerania: require("./../../assets/pomerania.jpg"),
+  Pastor_Aleman: require("./../../assets/Terrier.jpg"),
+  Bichón_Frisé_: require("./../../assets/frise.jpg"),
+  Pug: require("./../../assets/pug.jpg"),
+  Beagle: require("./../../assets/beagle.jpg"),
+  Bulldog_Inglés: require("./../../assets/bulldog.jpg"),
+  Basset_Hound: require("./../../assets/basset.jpg"),
+  Shar_Pei: require("./../../assets/shar.jpg"),
+  Dóberman: require("./../../assets/doberman.jpg"),
+  Pastor_Alemán: require("./../../assets/pastor.jpg"),
+  Husky_Siberiano: require("./../../assets/husky.jpg"),
+  Rottweiler: require("./../../assets/rottweiler.jpg"),
   // Agrega más razas aquí
 };
 
@@ -19,9 +30,9 @@ const BreedDetail = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>{breed.raza}</Text>
+      <Image source={imageSource} style={styles.image} />
       <View style={styles.card}>
-        <Image source={imageSource} style={styles.image} />
-        <Text style={styles.title}>{breed.raza}</Text>
         <Text style={styles.detail}>
           <Text style={styles.bold}>Categoría:</Text> {breed.categoria}
         </Text>
@@ -50,13 +61,13 @@ const BreedDetail = ({ route, navigation }) => {
         <Text style={styles.detail}>
           <Text style={styles.bold}>Información:</Text> {breed.info}
         </Text>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <Text style={styles.backButtonText}>Regresar</Text>
-        </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Regresar</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -70,19 +81,23 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#fff",
-    borderRadius: 15,
-    padding: 20,
-    width: "90%", // Ancho de la tarjeta
-    maxWidth: 400, // Máximo ancho para dispositivos grandes
-    elevation: 5, // Sombra para Android
-    shadowColor: "#000", // Sombra para iOS
+    borderTopLeftRadius: 30, // Aumentar para un efecto más ovalado
+    borderTopRightRadius: 30, // Aumentar para un efecto más ovalado
+    borderBottomLeftRadius: 30, // Aumentar para un efecto más ovalado
+    borderBottomRightRadius: 30, // Aumentar para un efecto más ovalado
+    paddingTop: 10,
+    paddingHorizontal: 30,
+    width: "90%",
+    maxWidth: 400,
+    elevation: 5,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    alignItems: "center", // Centrar contenido
+    alignItems: "center",
   },
   backButton: {
     marginTop: 20,
@@ -98,12 +113,13 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 350,
+    height: 300,
     borderRadius: 10,
     marginBottom: 1,
   },
   title: {
-    fontSize: 28, // Título más grande
+    color: "#8396dc",
+    fontSize: 40, // Título más grande
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center", // Centrar el título
@@ -116,6 +132,20 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "bold",
+  },
+  button: {
+    backgroundColor: "#6a7dc5", // Cambia el color de fondo según lo desees
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 50,
+    alignItems: "center",
+    marginTop: 10, // Espaciado vertical entre botones
+    marginBottom: -30,
+  },
+  buttonText: {
+    color: "white", // Color del texto
+    fontSize: 18, // Tamaño del texto
+    fontWeight: "400", // Grosor del texto
   },
 });
 

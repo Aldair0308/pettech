@@ -25,17 +25,17 @@ const CatalogoComponent = () => {
       case "Pequeña":
         url =
           "https://alimentador-production.up.railway.app/breeds/category/chico";
-        setCurrentCategory("Pequeña"); // Guarda la categoría actual
+        setCurrentCategory("pequeña"); // Guarda la categoría actual
         break;
       case "Mediana":
         url =
           "https://alimentador-production.up.railway.app/breeds/category/mediano";
-        setCurrentCategory("Mediana");
+        setCurrentCategory("mediana");
         break;
       case "Grande":
         url =
           "https://alimentador-production.up.railway.app/breeds/category/grande";
-        setCurrentCategory("Grande");
+        setCurrentCategory("grande");
         break;
       default:
         return; // Si no coincide con ninguna categoría, no hace nada

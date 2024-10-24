@@ -34,7 +34,17 @@ const images = {
   Yorkshire_Terrier: require("./../../assets/Terrier.jpg"),
   Chihuahua: require("./../../assets/photo-chihuahua.jpg"),
   Pomerania: require("./../../assets/pomerania.jpg"),
-  Pastor_Aleman: require("./../../assets/Terrier.jpg"), // Cambiado
+  Pastor_Aleman: require("./../../assets/Terrier.jpg"),
+  Bichón_Frisé_: require("./../../assets/frise.jpg"),
+  Pug: require("./../../assets/pug.jpg"),
+  Beagle: require("./../../assets/beagle.jpg"),
+  Bulldog_Inglés: require("./../../assets/bulldog.jpg"),
+  Basset_Hound: require("./../../assets/basset.jpg"),
+  Shar_Pei: require("./../../assets/shar.jpg"),
+  Dóberman: require("./../../assets/doberman.jpg"),
+  Pastor_Alemán: require("./../../assets/pastor.jpg"),
+  Husky_Siberiano: require("./../../assets/husky.jpg"),
+  Rottweiler: require("./../../assets/rottweiler.jpg"),
   // Agrega otras razas aquí
 };
 
@@ -62,7 +72,13 @@ const BreedCard: React.FC<BreedCardProps> = ({ breeds }) => {
         onPress={() => handlePress(item)}
       >
         <Image source={imageSource} style={styles.image} />
-        <Text style={{ ...styles.title, color: theme.colors.buttonText }}>
+        <Text
+          style={{
+            ...styles.title,
+            color: theme.colors.buttonText,
+            alignSelf: "center",
+          }}
+        >
           {item.raza}
         </Text>
       </TouchableOpacity>
@@ -91,7 +107,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     borderRadius: 8,
-    padding: 16,
+    padding: 10,
     marginVertical: 8,
     width: "48%",
     shadowColor: "#000",
@@ -105,12 +121,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 130,
+    height: 150,
     borderRadius: 8,
     marginBottom: 10,
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
     marginBottom: 5,
   },
