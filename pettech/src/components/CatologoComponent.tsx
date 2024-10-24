@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   resetButton: {
-    backgroundColor: "#FF6A51",
+    backgroundColor: "#6a7dc5",
     borderRadius: 30,
     paddingVertical: 15,
     paddingHorizontal: 20,

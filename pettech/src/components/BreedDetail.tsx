@@ -34,19 +34,17 @@ const BreedDetail = ({ route, navigation }) => {
       <Image source={imageSource} style={styles.image} />
       <View style={styles.card}>
         <Text style={styles.detail}>
-          <Text style={styles.bold}>Categoría:</Text> {breed.categoria}
-        </Text>
-        <Text style={styles.detail}>
           <Text style={styles.bold}>Tamaño:</Text> {breed.tamaño}
-        </Text>
-        <Text style={styles.detail}>
-          <Text style={styles.bold}>Vida:</Text> {breed.vida}
         </Text>
         <Text style={styles.detail}>
           <Text style={styles.bold}>Peso:</Text> {breed.peso}
         </Text>
         <Text style={styles.detail}>
-          <Text style={styles.bold}>Gramos:</Text> {breed.gramos}
+          <Text style={styles.bold}>Esperanza de vida:</Text> {breed.vida}
+        </Text>
+        <Text style={styles.detail}>
+          <Text style={styles.bold}>Cantidad de comida diaria:</Text>{" "}
+          {breed.gramos}
         </Text>
         <Text style={styles.detail}>
           <Text style={styles.bold}>Veces al día:</Text> {breed.veces}
@@ -55,11 +53,8 @@ const BreedDetail = ({ route, navigation }) => {
           <Text style={styles.bold}>Porción:</Text> {breed.porcion} gramos
         </Text>
         <Text style={styles.detail}>
-          <Text style={styles.bold}>Horas de comida:</Text>{" "}
+          <Text style={styles.bold}>Horario recomendado:</Text>{" "}
           {breed.horas.join(", ")}
-        </Text>
-        <Text style={styles.detail}>
-          <Text style={styles.bold}>Información:</Text> {breed.info}
         </Text>
       </View>
       <TouchableOpacity
@@ -85,7 +80,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30, // Aumentar para un efecto más ovalado
     borderBottomLeftRadius: 30, // Aumentar para un efecto más ovalado
     borderBottomRightRadius: 30, // Aumentar para un efecto más ovalado
-    paddingTop: 10,
+    paddingVertical: 10,
     paddingHorizontal: 30,
     width: "90%",
     maxWidth: 400,
