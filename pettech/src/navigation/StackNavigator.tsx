@@ -22,11 +22,17 @@ const MainStackNavigator: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        {authState.isLoggedIn ? (
+          // Si el usuario está logueado, redirigir a App
+          <Stack.Screen name="Home" component={DrawerNavigator} />
+        ) : (
+          // Si no está logueado, mostrar la WelcomeScreen
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        )}
+        <Stack.Screen name="App" component={DrawerNavigator} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="App" component={DrawerNavigator} />
         <Stack.Screen name="Catalogo" component={CatalogoComponent} />
         <Stack.Screen name="CatalogoScreen" component={CatalogoScreen} />
         <Stack.Screen name="BreedDetail" component={BreedDetail} />

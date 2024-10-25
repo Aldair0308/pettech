@@ -1,6 +1,6 @@
-import React, { createContext, useReducer, ReactNode } from "react";
-import { authReducer } from "./AuthReducer"; // Asegúrate de que la ruta sea correcta
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Importa AsyncStorage
+import React, { createContext, useReducer, ReactNode, useEffect } from "react";
+import { authReducer } from "./AuthReducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Define la interfaz Input que se utiliza en AuthState
 interface Input {
@@ -8,7 +8,7 @@ interface Input {
 }
 
 export interface LoginResponse {
-  _id: string; // Asegúrate de que _id sea un string
+  _id: string;
   email: string;
   photo: string;
   rol: string;
@@ -21,11 +21,11 @@ export interface AuthState extends LoginResponse {
 
 export const AuthInitialState: AuthState = {
   isLoggedIn: false,
-  _id: "", // Inicializa el id del usuario como una cadena vacía
+  _id: "",
   email: "",
   photo: "",
   rol: "",
-  name: "", // Inicializa el nombre del usuario como una cadena vacía
+  name: "",
 };
 
 type AuthAction =
@@ -49,10 +49,40 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authState, dispatch] = useReducer(authReducer, AuthInitialState);
 
-  const signIn = (response: { accessToken: string; user: LoginResponse }) => {
-    const user = response.user; // Extraer el usuario de la respuesta
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userId = await AsyncStorage.getItem("userId");
+        const userPhoto = await AsyncStorage.getItem("userPhoto");
+        const userRol = await AsyncStorage.getItem("userRol");
+        const userName = await AsyncStorage.getItem("userName");
 
-    // Comprobación de que el ID es correcto
+        if (userId) {
+          dispatch({
+            type: "signIn",
+            payload: {
+              _id: userId,
+              photo: userPhoto || "",
+              rol: userRol || "",
+              name: userName || "",
+              email: "", // Puedes ajustar esto si necesitas cargar el email también
+            },
+          });
+        }
+      } catch (error) {
+        console.error(
+          "Error al cargar los datos del usuario de AsyncStorage:",
+          error
+        );
+      }
+    };
+
+    loadUserData();
+  }, []);
+
+  const signIn = (response: { accessToken: string; user: LoginResponse }) => {
+    const user = response.user;
+
     console.log("User ID:", user._id);
     if (user._id.length < 24) {
       console.error("El ID del usuario es inválido:", user._id);
@@ -61,105 +91,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     dispatch({ type: "signIn", payload: user });
 
-    // Guarda el id y otros datos del usuario en AsyncStorage al iniciar sesión
-    AsyncStorage.setItem("userId", user._id)
-      .then(() =>
-        console.log("Id del usuario guardado en AsyncStorage:", user._id)
-      )
-      .catch((error) =>
-        console.error(
-          "Error al guardar el id del usuario en AsyncStorage:",
-          error
-        )
-      );
-
-    AsyncStorage.setItem("userPhoto", user.photo)
-      .then(() =>
-        console.log("Foto del usuario guardada en AsyncStorage:", user.photo)
-      )
-      .catch((error) =>
-        console.error(
-          "Error al guardar la foto del usuario en AsyncStorage:",
-          error
-        )
-      );
-
-    AsyncStorage.setItem("userRol", user.rol)
-      .then(() =>
-        console.log("Rol del usuario guardado en AsyncStorage:", user.rol)
-      )
-      .catch((error) =>
-        console.error(
-          "Error al guardar el rol del usuario en AsyncStorage:",
-          error
-        )
-      );
-
-    AsyncStorage.setItem("userName", user.name)
-      .then(() =>
-        console.log("Nombre del usuario guardado en AsyncStorage:", user.name)
-      )
-      .catch((error) =>
-        console.error(
-          "Error al guardar el nombre del usuario en AsyncStorage:",
-          error
-        )
-      );
+    // Guarda los datos del usuario en AsyncStorage
+    AsyncStorage.setItem("userId", user._id).catch((error) =>
+      console.error("Error al guardar el id:", error)
+    );
+    AsyncStorage.setItem("userPhoto", user.photo).catch((error) =>
+      console.error("Error al guardar la foto:", error)
+    );
+    AsyncStorage.setItem("userRol", user.rol).catch((error) =>
+      console.error("Error al guardar el rol:", error)
+    );
+    AsyncStorage.setItem("userName", user.name).catch((error) =>
+      console.error("Error al guardar el nombre:", error)
+    );
   };
 
   const logout = () => {
     dispatch({ type: "logout" });
 
-    // Elimina el id y otros datos del usuario de AsyncStorage al cerrar sesión
-    AsyncStorage.removeItem("userId")
-      .then(() =>
-        console.log("Id del usuario eliminado de AsyncStorage al cerrar sesión")
-      )
-      .catch((error) =>
-        console.error(
-          "Error al eliminar el id del usuario de AsyncStorage:",
-          error
-        )
-      );
-
-    AsyncStorage.removeItem("userPhoto")
-      .then(() =>
-        console.log(
-          "Foto del usuario eliminada de AsyncStorage al cerrar sesión"
-        )
-      )
-      .catch((error) =>
-        console.error(
-          "Error al eliminar la foto del usuario de AsyncStorage:",
-          error
-        )
-      );
-
-    AsyncStorage.removeItem("userRol")
-      .then(() =>
-        console.log(
-          "Rol del usuario eliminado de AsyncStorage al cerrar sesión"
-        )
-      )
-      .catch((error) =>
-        console.error(
-          "Error al eliminar el rol del usuario de AsyncStorage:",
-          error
-        )
-      );
-
-    AsyncStorage.removeItem("userName")
-      .then(() =>
-        console.log(
-          "Nombre del usuario eliminado de AsyncStorage al cerrar sesión"
-        )
-      )
-      .catch((error) =>
-        console.error(
-          "Error al eliminar el nombre del usuario de AsyncStorage:",
-          error
-        )
-      );
+    // Elimina los datos del usuario de AsyncStorage
+    AsyncStorage.removeItem("userId").catch((error) =>
+      console.error("Error al eliminar el id:", error)
+    );
+    AsyncStorage.removeItem("userPhoto").catch((error) =>
+      console.error("Error al eliminar la foto:", error)
+    );
+    AsyncStorage.removeItem("userRol").catch((error) =>
+      console.error("Error al eliminar el rol:", error)
+    );
+    AsyncStorage.removeItem("userName").catch((error) =>
+      console.error("Error al eliminar el nombre:", error)
+    );
   };
 
   return (
