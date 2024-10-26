@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Battery from "./Battery"; // Asegúrate de que la ruta sea correcta
 
 const FullBattery: React.FC = () => {
@@ -28,10 +28,24 @@ const FullBattery: React.FC = () => {
   }, []);
 
   return (
-    <View>
+    <View style={styles.container}>
+      <Text style={styles.batteryText}>{`${batteryLevel}%`}</Text>
       <Battery level={batteryLevel} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  batteryText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10, // Espaciado entre el texto y el componente de batería
+  },
+});
 
 export default FullBattery;

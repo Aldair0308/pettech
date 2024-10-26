@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 interface BatteryProps {
   level: number; // Debe estar entre 0 y 100
@@ -10,15 +10,23 @@ const Battery: React.FC<BatteryProps> = ({ level }) => {
   const divisions = 5;
   const divisionHeight = 100 / divisions;
 
+  // Función para interpolar entre verde y rojo
+  const interpolateColor = (level: number) => {
+    const green = Math.round((level / 100) * 255);
+    const red = Math.round(255 - (level / 100) * 255);
+    return `rgb(${red}, ${green}, 0)`; // Color en formato RGB
+  };
+
   return (
     <View style={styles.batteryContainer}>
+      <Text style={styles.batteryText}>{`${batteryDisplayLevel}%`}</Text>
       <View style={styles.battery}>
         <View
           style={[
             styles.batteryLevel,
             {
               height: `${batteryDisplayLevel}%`,
-              backgroundColor: batteryDisplayLevel > 20 ? "green" : "red",
+              backgroundColor: interpolateColor(batteryDisplayLevel),
             },
           ]}
         />
@@ -48,6 +56,13 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderRadius: 10,
     position: "relative",
+  },
+  batteryText: {
+    position: "absolute",
+    top: 10,
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "black",
   },
   battery: {
     height: "100%",
