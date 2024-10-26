@@ -21,8 +21,24 @@ const PetsScreen = ({ navigation }) => {
   const [selectedMinute, setSelectedMinute] = useState(0);
   const [selectedTime, setSelectedTime] = useState("");
   const [id, setId] = useState("");
+  const [porcion, setPorcion] = useState(0); // Nuevo estado para la porción
 
   const { theme } = useTheme();
+
+  useEffect(() => {
+    // Calcular la porción cada vez que gramos o veces cambien
+    if (gramos && veces) {
+      const gramosInt = parseInt(gramos);
+      const vecesInt = parseInt(veces);
+      if (vecesInt > 0) {
+        setPorcion(Math.floor(gramosInt / vecesInt)); // Calcula la porción entera
+      } else {
+        setPorcion(0); // Si veces es 0, la porción es 0
+      }
+    } else {
+      setPorcion(0); // Reiniciar porción si gramos o veces son vacíos
+    }
+  }, [gramos, veces]);
 
   useEffect(() => {
     const fetchPetData = async () => {
@@ -102,7 +118,7 @@ const PetsScreen = ({ navigation }) => {
             categoria: categoria,
             gramos: parseInt(gramos),
             veces: parseInt(veces),
-            porcion: 100,
+            porcion: porcion,
             horas: horas,
             edad: edad,
           }),

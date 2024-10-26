@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -27,8 +27,24 @@ const RegistroScreen = ({ navigation }) => {
   const [selectedHour, setSelectedHour] = useState(0);
   const [selectedMinute, setSelectedMinute] = useState(0);
   const [selectedTime, setSelectedTime] = useState("");
+  const [porcion, setPorcion] = useState(0); // Nuevo estado para la porción
 
   const { theme } = useTheme();
+
+  useEffect(() => {
+    // Calcular la porción cada vez que gramos o veces cambien
+    if (gramos && veces) {
+      const gramosInt = parseInt(gramos);
+      const vecesInt = parseInt(veces);
+      if (vecesInt > 0) {
+        setPorcion(Math.floor(gramosInt / vecesInt)); // Calcula la porción entera
+      } else {
+        setPorcion(0); // Si veces es 0, la porción es 0
+      }
+    } else {
+      setPorcion(0); // Reiniciar porción si gramos o veces son vacíos
+    }
+  }, [gramos, veces]);
 
   const handleRegister = async () => {
     try {
@@ -45,7 +61,7 @@ const RegistroScreen = ({ navigation }) => {
             categoria: categoria,
             gramos: parseInt(gramos),
             veces: parseInt(veces),
-            porcion: 100, // Valor fijo o dinámico según tu lógica
+            porcion: porcion, // Valor fijo o dinámico según tu lógica
             horas: horas, // Aquí se envían las horas en el formato correcto
             edad: edad,
           }),
