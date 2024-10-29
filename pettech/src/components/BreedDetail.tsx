@@ -44,7 +44,7 @@ const BreedDetail = ({ route, navigation }) => {
         </Text>
         <Text style={styles.detail}>
           <Text style={styles.bold}>Cantidad de comida diaria:</Text>{" "}
-          {breed.gramos}
+          {breed.gramos} gramos
         </Text>
         <Text style={styles.detail}>
           <Text style={styles.bold}>Veces al día:</Text> {breed.veces}
@@ -52,10 +52,18 @@ const BreedDetail = ({ route, navigation }) => {
         <Text style={styles.detail}>
           <Text style={styles.bold}>Porción:</Text> {breed.porcion} gramos
         </Text>
-        <Text style={styles.detail}>
-          <Text style={styles.bold}>Horario recomendado:</Text>{" "}
-          {breed.horas.join(", ")}
-        </Text>
+        <Text style={styles.bold}>Horario recomendado:</Text>
+        <View style={styles.hoursContainer}>
+          {breed.horas && breed.horas.length > 0 ? (
+            breed.horas.map((hora, index) => (
+              <View key={index} style={styles.hourItem}>
+                <Text style={styles.hourText}>{hora}</Text>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.detail}>No hay horarios disponibles.</Text>
+          )}
+        </View>
       </View>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
@@ -70,16 +78,13 @@ const BreedDetail = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center", // Centrar verticalmente
-    alignItems: "center", // Centrar horizontalmente
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#f8f8f8",
   },
   card: {
     backgroundColor: "#fff",
-    borderTopLeftRadius: 30, // Aumentar para un efecto más ovalado
-    borderTopRightRadius: 30, // Aumentar para un efecto más ovalado
-    borderBottomLeftRadius: 30, // Aumentar para un efecto más ovalado
-    borderBottomRightRadius: 30, // Aumentar para un efecto más ovalado
+    borderRadius: 30,
     paddingVertical: 10,
     paddingHorizontal: 30,
     width: "90%",
@@ -94,17 +99,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     alignItems: "center",
   },
-  backButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "#007BFF", // Color azul
-    borderRadius: 5,
-    width: "100%", // Botón a todo lo ancho
-  },
-  backButtonText: {
-    color: "#fff",
-    textAlign: "center",
+  title: {
+    color: "#8396dc",
+    fontSize: 40,
     fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
   },
   image: {
     width: "100%",
@@ -112,35 +112,46 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 1,
   },
-  title: {
-    color: "#8396dc",
-    fontSize: 40, // Título más grande
-    fontWeight: "bold",
-    marginBottom: 10,
-    textAlign: "center", // Centrar el título
-  },
   detail: {
-    fontSize: 16, // Tamaño de texto
-    marginVertical: 5, // Espacio entre líneas
-    textAlign: "left", // Alinear a la izquierda
-    width: "100%", // Hacer que el texto use todo el ancho
+    fontSize: 16,
+    marginVertical: 5,
+    textAlign: "left",
+    width: "100%",
   },
   bold: {
     fontWeight: "bold",
   },
+  hoursContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between", // Asegura distribución uniforme
+    marginVertical: 10,
+    width: "100%",
+  },
+  hourItem: {
+    backgroundColor: "#92aae8",
+    borderRadius: 10,
+    padding: 10,
+    margin: 5,
+    flexGrow: 1, // Permite que se expandan y ocupen el espacio disponible
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  hourText: {
+    fontWeight: "600",
+    fontSize: 21,
+  },
   button: {
-    backgroundColor: "#6a7dc5", // Cambia el color de fondo según lo desees
+    backgroundColor: "#6a7dc5",
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 50,
     alignItems: "center",
-    marginTop: 10, // Espaciado vertical entre botones
-    marginBottom: -30,
+    marginTop: 10,
   },
   buttonText: {
-    color: "white", // Color del texto
-    fontSize: 18, // Tamaño del texto
-    fontWeight: "400", // Grosor del texto
+    color: "white",
+    fontSize: 18,
+    fontWeight: "400",
   },
 });
 
