@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "pettech",
+    "name": "pettech", 
     "slug": "pettech",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon.png",  
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -16,17 +16,28 @@
       "statusBar": {
         "style": "dark-content",
         "backgroundColor": "#ffffff"
+      },
+      "notification": {
+        "icon": "./assets/icon.png",  
+        "color": "#FF231F7C",  
+        "displayInForeground": true 
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png", 
         "backgroundColor": "#ffffff"
       },
       "package": "com.radial51.pettech",
       "statusBar": {
         "backgroundColor": "#ffffff",
         "barStyle": "dark-content"
+      },
+      "notification": {
+        "icon": "./assets/icon.png",  
+        "color": "#FF231F7C",  
+        "priority": "high", 
+        "badge": true  
       }
     },
     "web": {

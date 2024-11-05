@@ -3,15 +3,14 @@ import { Platform, Alert } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Importar AsyncStorage
 
 // messages.ts (o directamente en el archivo del hook)
 export const messages = {
-  paymentReminder: "Buenos días, cuando puedo pasar?",
-  energyReminder: "Buenos días, este es el recibo de luz",
-  serviceAlert:
-    "Estimado cliente, le informamos que el servicio se encuentra temporalmente fuera de servicio.",
-  feedbackRequest:
-    "Gracias por usar nuestro servicio. Por favor, déjenos sus comentarios para mejorar nuestra atención.",
+  paymentReminder: "El alimento ha sido dispensado",
+  energyReminder: "El alimentador ha sido desconectado de la fuente de energía",
+  serviceAlert: "Está por terminarse el alimento almacenado",
+  feedbackRequest: "Problemas con el alimentador? Contáctenos",
 };
 
 Notifications.setNotificationHandler({
@@ -29,7 +28,33 @@ type NotificationHookResult = {
 const useNotification = (): NotificationHookResult => {
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
 
+  // Función para guardar el token en AsyncStorage
+  const savePushTokenToStorage = async (token: string) => {
+    try {
+      await AsyncStorage.setItem("expoPushToken", token); // Guardamos el token
+      console.log("Push token guardado en AsyncStorage:", token);
+    } catch (error) {
+      console.error("Error guardando el token en AsyncStorage", error);
+    }
+  };
+
+  // Función para recuperar el token desde AsyncStorage
+  const getPushTokenFromStorage = async () => {
+    try {
+      const savedToken = await AsyncStorage.getItem("expoPushToken");
+      if (savedToken) {
+        console.log("Token recuperado de AsyncStorage:", savedToken);
+        setExpoPushToken(savedToken);
+      }
+    } catch (error) {
+      console.error("Error recuperando el token desde AsyncStorage", error);
+    }
+  };
+
   useEffect(() => {
+    // Recupera el token guardado al inicio si existe
+    getPushTokenFromStorage();
+
     const registerForPushNotificationsAsync = async (): Promise<void> => {
       try {
         if (Platform.OS === "android") {
@@ -37,7 +62,7 @@ const useNotification = (): NotificationHookResult => {
             name: "default",
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],
-            lightColor: "#FF231F7C",
+            lightColor: "#FF231F7C", // Color de la luz en Android
           });
         }
 
@@ -58,9 +83,11 @@ const useNotification = (): NotificationHookResult => {
             await Notifications.getExpoPushTokenAsync({
               projectId: Constants.expoConfig?.extra?.eas?.projectId || "",
             });
+
           if (expoPushTokenResponse.data) {
             setExpoPushToken(expoPushTokenResponse.data);
-            console.log("Expo Push Token:", expoPushTokenResponse.data);
+            // Guarda el token en AsyncStorage
+            savePushTokenToStorage(expoPushTokenResponse.data);
           } else {
             console.warn("No token received.");
           }
@@ -89,7 +116,58 @@ const useNotification = (): NotificationHookResult => {
     };
   }, []);
 
-  return { expoPushToken };
+  const sendPushNotification = async () => {
+    if (!expoPushToken) {
+      Alert.alert("Error", "No se ha recibido el token de notificación.");
+      return;
+    }
+
+    const message = messages.paymentReminder; // Primer mensaje a enviar
+
+    const messagePayload = {
+      to: expoPushToken,
+      sound: "default",
+      title: "Alimento dispensado", // Título de la notificación
+      body: message,
+      data: {
+        messageType: "paymentReminder", // Especificar el tipo de mensaje
+      },
+      android: {
+        icon: "./assets/icon.png", // Icono personalizado para la notificación en Android
+        color: "#FF231F7C", // Color de la notificación en Android
+      },
+      ios: {
+        icon: "./assets/icon.png", // Icono personalizado para la notificación en iOS
+      },
+    };
+
+    try {
+      // Enviar la notificación a la Expo Push API
+      const response = await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(messagePayload),
+      });
+
+      const responseJson = await response.json();
+      if (responseJson.data) {
+        Alert.alert(
+          "Notificación enviada",
+          "La notificación fue enviada correctamente."
+        );
+      } else {
+        throw new Error("Error al enviar la notificación.");
+      }
+    } catch (error) {
+      Alert.alert("Error", "Hubo un problema enviando la notificación.");
+      console.error(error);
+    }
+  };
+
+  return { expoPushToken, sendPushNotification };
 };
 
 export default useNotification;
