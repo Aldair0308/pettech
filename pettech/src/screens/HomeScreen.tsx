@@ -12,6 +12,7 @@ import {
 import { useTheme } from "./../hooks/useTheme";
 import HoraDisplay from "../components/HoraActual";
 import ActualizarEstadoButton from "../components/ActualizarEstadoButton";
+import NotificationButton from "../components/NotificationButton";
 
 const HomeScreen = () => {
   const { theme } = useTheme();
@@ -45,6 +46,7 @@ const HomeScreen = () => {
             <Text style={styles.buttonText}>Parar</Text>
           </TouchableOpacity>
         </View>
+        <NotificationButton />
       </View>
     </View>
   );
