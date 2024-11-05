@@ -18,7 +18,7 @@ const useImageUploader = (): ImageUploaderResult => {
 
     try {
       const response = await fetch(
-        `https://alimentador-production.up.railway.app/api/v2/users/${userId}`,
+        `http:192.168.100.169:3000/api/v2/users/${userId}`,
         {
           method: "PUT",
           body: formData,

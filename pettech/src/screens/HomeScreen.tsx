@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useTheme } from "./../hooks/useTheme";
 import HoraDisplay from "../components/HoraActual";
+import ActualizarEstadoButton from "../components/ActualizarEstadoButton";
 
 const HomeScreen = () => {
   const { theme } = useTheme();
@@ -36,9 +37,10 @@ const HomeScreen = () => {
 
         {/* Contenedor para los botones */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button1}>
+          {/* <TouchableOpacity style={styles.button1}>
             <Text style={styles.buttonText}>Dispensar</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <ActualizarEstadoButton />
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Parar</Text>
           </TouchableOpacity>

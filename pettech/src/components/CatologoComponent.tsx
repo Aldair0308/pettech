@@ -23,18 +23,15 @@ const CatalogoComponent = () => {
 
     switch (raza) {
       case "Pequeña":
-        url =
-          "https://alimentador-production.up.railway.app/breeds/category/chico";
+        url = "http:192.168.100.169:3000/breeds/category/chico";
         setCurrentCategory("pequeña"); // Guarda la categoría actual
         break;
       case "Mediana":
-        url =
-          "https://alimentador-production.up.railway.app/breeds/category/mediano";
+        url = "http:192.168.100.169:3000/breeds/category/mediano";
         setCurrentCategory("mediana");
         break;
       case "Grande":
-        url =
-          "https://alimentador-production.up.railway.app/breeds/category/grande";
+        url = "http:192.168.100.169:3000/breeds/category/grande";
         setCurrentCategory("grande");
         break;
       default:

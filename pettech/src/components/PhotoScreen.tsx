@@ -23,7 +23,7 @@ const PhotoScreen: React.FC = () => {
       const userId = await AsyncStorage.getItem("userId");
 
       const response = await fetch(
-        `https://alimentador-production.up.railway.app/users/id/${userId}`,
+        `http:192.168.100.169:3000/users/id/${userId}`,
         {
           method: "PUT",
           headers: {

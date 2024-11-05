@@ -9,7 +9,7 @@ const FullBattery: React.FC = () => {
     const fetchBatteryLevel = async () => {
       try {
         const response = await fetch(
-          "https://alimentador-production.up.railway.app/distancias/last"
+          "http:192.168.100.169:3000/distancias/last"
         );
         const data = await response.json();
         const { porcentaje } = data;

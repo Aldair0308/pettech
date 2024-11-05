@@ -48,25 +48,22 @@ const RegistroScreen = ({ navigation }) => {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch(
-        "https://alimentador-production.up.railway.app/pets",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            nombre: name,
-            raza: raza,
-            categoria: categoria,
-            gramos: parseInt(gramos),
-            veces: parseInt(veces),
-            porcion: porcion, // Valor fijo o dinámico según tu lógica
-            horas: horas, // Aquí se envían las horas en el formato correcto
-            edad: edad,
-          }),
-        }
-      );
+      const response = await fetch("http:192.168.100.169:3000/pets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: name,
+          raza: raza,
+          categoria: categoria,
+          gramos: parseInt(gramos),
+          veces: parseInt(veces),
+          porcion: porcion, // Valor fijo o dinámico según tu lógica
+          horas: horas, // Aquí se envían las horas en el formato correcto
+          edad: edad,
+        }),
+      });
 
       const data = await response.json();
 
