@@ -50,7 +50,7 @@ export const darkTheme = {
     primary: "#34495E", // Azul oscuro
     text: "#ECF0F1", // Texto claro
     background: "#2C3E50", // Fondo oscuro
-    buttonBackground: "#E67E22", // Naranja vibrante para botones
+    buttonBackground: "#FFCCB6", // Naranja vibrante para botones
     buttonText: "white",
     hora: "white",
   },

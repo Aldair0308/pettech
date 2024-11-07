@@ -1,14 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
   withTiming,
+  useSharedValue,
 } from "react-native-reanimated";
-import { ThemeContext } from "./../hooks/ThemeProvider"; // Importamos el contexto de tema
+import { ThemeContext } from "../hooks/ThemeProvider"; // Importamos el contexto de tema
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Importamos AsyncStorage
 
-const AnimatedSwitch: React.FC = () => {
-  const [isDay, setIsDay] = useState(true); // Estado local para manejar el modo día/noche en la animación
+const ThemeSwitch: React.FC = () => {
+  const [isDay, setIsDay] = useState(true); // Estado local para manejar el modo día/noche
+
   const animation = useSharedValue(0); // Valor compartido para la animación
 
   const themeContext = useContext(ThemeContext); // Obtenemos el contexto de tema
@@ -16,18 +18,37 @@ const AnimatedSwitch: React.FC = () => {
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: animation.value }],
+      transform: [{ translateX: animation.value }], // Movimiento de la "palanca"
     };
   });
 
+  // Cargar el tema persistido desde AsyncStorage cuando el componente se monta
+  useEffect(() => {
+    const loadTheme = async () => {
+      try {
+        // Cargar el tema guardado
+        const storedTheme = await AsyncStorage.getItem("theme");
+        if (storedTheme) {
+          setIsDay(storedTheme === "light");
+          animation.value = storedTheme === "light" ? 0 : 100; // Iniciar animación según el tema
+        }
+      } catch (error) {
+        console.error("Error al cargar el tema desde AsyncStorage", error);
+      }
+    };
+    loadTheme();
+  }, []); // Solo se ejecuta una vez cuando el componente se monta
+
   // Cambiar el tema y actualizar la animación cuando se presiona el switch
-  const handlePress = () => {
+  const handlePress = async () => {
     if (animation.value === 0) {
       animation.value = withTiming(100, { duration: 500 });
       setIsDay(false); // Cambia a modo noche
+      await AsyncStorage.setItem("theme", "dark"); // Guardamos el tema en AsyncStorage
     } else {
       animation.value = withTiming(0, { duration: 500 });
       setIsDay(true); // Cambia a modo día
+      await AsyncStorage.setItem("theme", "light"); // Guardamos el tema en AsyncStorage
     }
     toggleTheme(); // Cambia el tema al presionar el switch
   };
@@ -42,8 +63,8 @@ const AnimatedSwitch: React.FC = () => {
           <Image
             source={
               isDay
-                ? require("./../../assets/day.jpg")
-                : require("./../../assets/night.jpg")
+                ? require("./../../assets/day.jpg") // Imagen del modo día
+                : require("./../../assets/night.jpg") // Imagen del modo noche
             }
             style={styles.icon}
           />
@@ -84,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AnimatedSwitch;
+export default ThemeSwitch;

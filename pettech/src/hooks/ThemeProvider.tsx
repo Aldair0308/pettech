@@ -1,6 +1,8 @@
-import React, { createContext, useState, ReactNode } from "react";
-import { lightTheme, darkTheme } from "./../themes/appTheme";
+import React, { createContext, useState, useEffect, ReactNode } from "react";
+import { lightTheme, darkTheme } from "../themes/appTheme"; // Importar temas
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Importar AsyncStorage
 
+// Array de temas disponibles
 const themes = [lightTheme, darkTheme];
 
 interface Theme {
@@ -24,8 +26,25 @@ export const ThemeContext = createContext<
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [currentThemeIndex, setCurrentThemeIndex] = useState(0);
 
-  const toggleTheme = () => {
-    setCurrentThemeIndex((prevIndex) => (prevIndex + 1) % themes.length);
+  // Cargar el tema desde AsyncStorage al iniciar la aplicación
+  useEffect(() => {
+    const loadTheme = async () => {
+      const storedThemeIndex = await AsyncStorage.getItem("themeIndex");
+      if (storedThemeIndex) {
+        setCurrentThemeIndex(Number(storedThemeIndex));
+      }
+    };
+
+    loadTheme();
+  }, []);
+
+  // Cambiar el tema y guardar el cambio en AsyncStorage
+  const toggleTheme = async () => {
+    const nextThemeIndex = (currentThemeIndex + 1) % themes.length;
+    setCurrentThemeIndex(nextThemeIndex);
+
+    // Guardar el nuevo tema en AsyncStorage
+    await AsyncStorage.setItem("themeIndex", nextThemeIndex.toString());
   };
 
   return (
