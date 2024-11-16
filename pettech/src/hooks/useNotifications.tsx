@@ -51,6 +51,50 @@ const useNotification = (): NotificationHookResult => {
     }
   };
 
+  // Función para recuperar el userId desde AsyncStorage
+  const getUserIdFromStorage = async () => {
+    try {
+      const userId = await AsyncStorage.getItem("userId");
+      if (!userId) {
+        throw new Error("No se ha encontrado el userId en AsyncStorage.");
+      }
+      return userId;
+    } catch (error) {
+      console.error("Error recuperando el userId desde AsyncStorage", error);
+      throw error;
+    }
+  };
+
+  // Función para enviar el token a la API
+  const sendPushTokenToApi = async (pushToken: string) => {
+    try {
+      const userId = await getUserIdFromStorage(); // Recuperamos el userId
+      const apiUrl = `http://192.168.100.169:3000/users/id/${userId}`; // URL de la API
+      const jsonPayload = {
+        pushToken: pushToken, // Mandamos solo el pushToken
+      };
+
+      const response = await fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonPayload),
+      });
+
+      if (response.ok) {
+        console.log("Push token enviado correctamente a la API.");
+      } else {
+        console.error(
+          "Error al enviar el token a la API",
+          await response.text()
+        );
+      }
+    } catch (error) {
+      console.error("Error al enviar el token a la API", error);
+    }
+  };
+
   useEffect(() => {
     // Recupera el token guardado al inicio si existe
     getPushTokenFromStorage();
@@ -88,6 +132,8 @@ const useNotification = (): NotificationHookResult => {
             setExpoPushToken(expoPushTokenResponse.data);
             // Guarda el token en AsyncStorage
             savePushTokenToStorage(expoPushTokenResponse.data);
+            // Enviar el token a la API
+            sendPushTokenToApi(expoPushTokenResponse.data);
           } else {
             console.warn("No token received.");
           }
