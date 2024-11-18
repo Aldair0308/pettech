@@ -19,7 +19,7 @@ const BottomNavigation = () => {
     <BottomTab.Navigator
       initialRouteName="Home"
       shifting={true}
-      activeColor={theme.colors.primary}
+      activeColor={theme.colors.text}
       inactiveColor={theme.colors.text}
       barStyle={{ backgroundColor: theme.colors.background }}
     >

@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { Picker } from "@react-native-picker/picker";
 import styles from "./../themes/petStyles";
+import styles1 from "../themes/registroStyles";
 
 const PetsScreen = ({ navigation }) => {
   const [error, setError] = useState("");
@@ -274,9 +275,9 @@ const PetsScreen = ({ navigation }) => {
           animationType="slide"
           onRequestClose={() => setModalVisible(false)}
         >
-          <View style={styles.modalContainer}>
-            <View style={styles.card}>
-              <Text style={styles.modalTitle}>
+          <View style={styles1.modalContainer}>
+            <View style={styles1.card}>
+              <Text style={styles1.modalTitle}>
                 Selecciona la hora y minuto:
               </Text>
               <View style={styles.pickerContainer2}>

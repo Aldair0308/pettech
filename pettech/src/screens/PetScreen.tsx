@@ -11,7 +11,9 @@ const PetScreen = () => {
 
   return (
     <View style={[theme.styles.container]}>
-      <PetsScreen />
+      <View style={[theme.styles.containerSet]}>
+        <PetsScreen />
+      </View>
     </View>
   );
 };

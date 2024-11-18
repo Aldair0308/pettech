@@ -47,12 +47,12 @@ export const lightTheme = {
 
 export const darkTheme = {
   colors: {
-    primary: "#34495E", // Azul oscuro
-    text: "#ECF0F1", // Texto claro
-    background: "#2C3E50", // Fondo oscuro
-    buttonBackground: "#FFCCB6", // Naranja vibrante para botones
-    buttonText: "white",
-    hora: "white",
+    primary: "#34495E", // Azul oscuro para los íconos activos
+    text: "#ECF0F1", // Texto claro para los íconos inactivos
+    background: "#2C3E50", // Fondo oscuro para la barra de navegación
+    buttonBackground: "#FFCCB6", // Naranja vibrante para botones (si los usas en otro lugar)
+    buttonText: "white", // Texto blanco para los botones
+    hora: "white", // Color blanco para mostrar la hora
   },
   styles: StyleSheet.create({
     container: {
