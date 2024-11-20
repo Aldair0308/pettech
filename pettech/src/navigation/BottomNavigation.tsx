@@ -6,6 +6,7 @@ import HomeScreen from "../screens/HomeScreen";
 import CamScreen from "../screens/CamScreen";
 import PetScreen from "../screens/PetScreen";
 import ChartScreen from "../screens/ChartScreen";
+import useNotification from "../hooks/useNotifications";
 
 const BottomTab = createMaterialBottomTabNavigator();
 
@@ -14,6 +15,15 @@ const BottomNavigation = () => {
 
   const [showConfigTab, setShowConfigTab] = useState(false);
   const [showCocinaTab, setShowCocinaTab] = useState(false);
+  const { expoPushToken } = useNotification(); // Usamos el hook para gestionar las notificaciones
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (expoPushToken) {
+      console.log("Token de Push:", expoPushToken); // Imprime el token si se obtiene correctamente
+      setToken(expoPushToken); // Guardamos el token para usarlo en el botón
+    }
+  }, [expoPushToken]);
 
   return (
     <BottomTab.Navigator

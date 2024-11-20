@@ -7,7 +7,6 @@ import BottomNavigation from "./BottomNavigation";
 import LoginScreen from "../screens/LoginScreen";
 import { AuthContext } from "../context/AuthContext";
 import { ThemeContext } from "./../hooks/ThemeProvider";
-import useNotification from "../hooks/useNotifications";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator(); // Crea un Stack Navigator
@@ -27,15 +26,6 @@ const DrawerNavigator: React.FC = () => {
   }
 
   const { theme } = themeContext;
-  const { expoPushToken } = useNotification(); // Usamos el hook para gestionar las notificaciones
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (expoPushToken) {
-      console.log("Token de Push:", expoPushToken); // Imprime el token si se obtiene correctamente
-      setToken(expoPushToken); // Guardamos el token para usarlo en el botón
-    }
-  }, [expoPushToken]);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

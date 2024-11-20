@@ -7,41 +7,44 @@ interface BatteryProps {
 
 const Battery: React.FC<BatteryProps> = ({ level }) => {
   const batteryDisplayLevel = Math.max(0, Math.min(100, level));
-  const divisions = 5;
-  const divisionHeight = 100 / divisions;
+  const divisions = 6; // Ahora usamos 6 divisiones (barras)
 
-  // Función para interpolar entre verde y rojo
+  // Calcular el número de barras llenas basadas en el nivel de batería
+  const filledBars = Math.round((batteryDisplayLevel / 100) * divisions);
+
+  // Función para interpolar entre verde, amarillo y rojo
   const interpolateColor = (level: number) => {
-    const green = Math.round((level / 100) * 255);
-    const red = Math.round(255 - (level / 100) * 255);
-    return `rgb(${red}, ${green}, 0)`; // Color en formato RGB
+    if (level > 60) return "green";
+    if (level > 30) return "yellow";
+    return "red";
   };
 
   return (
     <View style={styles.batteryContainer}>
       <Text style={styles.batteryText}>{`${batteryDisplayLevel}%`}</Text>
+
       <View style={styles.battery}>
-        <View
-          style={[
-            styles.batteryLevel,
-            {
-              height: `${batteryDisplayLevel}%`,
-              backgroundColor: interpolateColor(batteryDisplayLevel),
-            },
-          ]}
-        />
-        {Array.from({ length: divisions }).map((_, index) => (
-          <View
-            key={index}
-            style={[
-              styles.divider,
-              {
-                bottom: `${(index + 1) * divisionHeight}%`,
-              },
-            ]}
-          />
-        ))}
+        {[...Array(divisions)].map((_, index) => {
+          const isFilled = index < filledBars;
+          return (
+            <View
+              key={index}
+              style={[
+                styles.bar,
+                isFilled && {
+                  backgroundColor: interpolateColor(batteryDisplayLevel),
+                },
+                !isFilled && styles.empty,
+                { bottom: (divisions - index - 1) * (100 / divisions) + "%" }, // Para llenar de abajo hacia arriba
+                index === 0 && { marginBottom: 5 }, // Agregar margen a la primera barra
+              ]}
+            />
+          );
+        })}
       </View>
+
+      {/* Agregamos la tapa de la batería (chupon) */}
+      <View style={styles.cap}></View>
     </View>
   );
 };
@@ -50,12 +53,13 @@ const styles = StyleSheet.create({
   batteryContainer: {
     alignItems: "center",
     justifyContent: "center",
-    height: 400,
-    width: 150,
+    height: 300, // Altura ajustada para mejor visibilidad
+    width: 120, // Ancho ajustado para que se vea bien
     borderWidth: 4,
-    borderColor: "black",
+    borderColor: "#B88B4A", // Color marrón de la batería
     borderRadius: 10,
     position: "relative",
+    paddingBottom: 2,
   },
   batteryText: {
     position: "absolute",
@@ -70,16 +74,26 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgray",
     position: "relative",
   },
-  batteryLevel: {
+  bar: {
+    width: "96%", // Las barras tienen el mismo ancho
+    height: 40, // Hicimos las barras más anchas
+    borderRadius: 5,
+    backgroundColor: "transparent",
     position: "absolute",
-    bottom: 0,
-    width: "100%",
+    marginHorizontal: 2,
   },
-  divider: {
+  empty: {
+    backgroundColor: "transparent", // Barras vacías (espacio transparente)
+  },
+  cap: {
+    width: 30,
+    height: 20,
+    backgroundColor: "#B88B4A", // Color marrón de la tapa
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     position: "absolute",
-    width: "100%",
-    height: 4,
-    backgroundColor: "gray",
+    top: -20,
+    left: 42, // Centrado en la parte superior
   },
 });
 
