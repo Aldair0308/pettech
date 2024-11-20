@@ -35,8 +35,7 @@ const Battery: React.FC<BatteryProps> = ({ level }) => {
                   backgroundColor: interpolateColor(batteryDisplayLevel),
                 },
                 !isFilled && styles.empty,
-                { bottom: (divisions - index - 1) * (100 / divisions) + "%" }, // Para llenar de abajo hacia arriba
-                index === 0 && { marginBottom: 5 }, // Agregar margen a la primera barra
+                { bottom: index * (100 / divisions) + "%" }, // Llenar de abajo hacia arriba
               ]}
             />
           );
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     borderColor: "#B88B4A", // Color marrón de la batería
     borderRadius: 10,
     position: "relative",
-    paddingBottom: 2,
+    paddingBottom: 3,
   },
   batteryText: {
     position: "absolute",
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     width: "96%", // Las barras tienen el mismo ancho
-    height: 40, // Hicimos las barras más anchas
+    height: 45, // Hicimos las barras más anchas
     borderRadius: 5,
     backgroundColor: "transparent",
     position: "absolute",
