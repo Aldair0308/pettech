@@ -19,7 +19,7 @@ const ChartScreen = () => {
         ]}
       >
         <Text style={{ ...styles.title, marginBottom: -10 }}>Nivel de</Text>
-        <Text style={{ ...styles.title, marginBottom: 60 }}>alimento</Text>
+        <Text style={{ ...styles.title, marginBottom: 10 }}>alimento</Text>
         <FullBattery />
       </View>
     </View>

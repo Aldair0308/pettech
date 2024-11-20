@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     borderColor: "#B88B4A", // Color marrón de la batería
     borderRadius: 15, // Radio de esquina mayor para una apariencia más suavizada
     position: "relative",
-    paddingBottom: 4, // Ajuste de espacio abajo
+    paddingBottom: 0, // Ajuste de espacio abajo
   },
   batteryText: {
     position: "absolute",
@@ -72,14 +72,16 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "lightgray",
     position: "relative",
+    borderRadius: 10,
   },
   bar: {
     width: "96%", // Las barras siguen con el mismo ancho
-    height: 68, // Barras más altas para que se vean más grandes
+    height: 65, // Barras más altas para que se vean más grandes
     borderRadius: 8, // Bordes más redondeados
     backgroundColor: "transparent",
     position: "absolute",
     marginHorizontal: 4, // Separación horizontal mayor
+    marginBottom: 4,
   },
   empty: {
     backgroundColor: "transparent", // Barras vacías (espacio transparente)
@@ -88,11 +90,10 @@ const styles = StyleSheet.create({
     width: 90,
     height: 25,
     backgroundColor: "#B88B4A", // Color marrón de la tapa
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    borderRadius: 10,
     position: "absolute",
     top: -25,
-    left: 55, // Centrado en la parte superior
+    left: 52, // Centrado en la parte superior
   },
 });
 
