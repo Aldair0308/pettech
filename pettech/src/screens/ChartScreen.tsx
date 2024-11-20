@@ -18,7 +18,9 @@ const ChartScreen = () => {
           { paddingHorizontal: 0, paddingTop: 0 },
         ]}
       >
-        <Text style={{ ...styles.title, marginBottom: -10 }}>Nivel de</Text>
+        <Text style={{ ...styles.title, marginBottom: -10, marginTop: 10 }}>
+          Nivel de
+        </Text>
         <Text style={{ ...styles.title, marginBottom: 10 }}>alimento</Text>
         <FullBattery />
       </View>

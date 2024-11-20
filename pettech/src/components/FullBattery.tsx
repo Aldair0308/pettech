@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Battery from "./Battery"; // Asegúrate de que la ruta sea correcta
+import { useTheme } from "../hooks/useTheme"; // Asumiendo que useTheme está bien configurado
 
 const FullBattery: React.FC = () => {
   const [batteryLevel, setBatteryLevel] = useState(0);
+  const { theme } = useTheme(); // Usando el hook useTheme
 
   useEffect(() => {
     const fetchBatteryLevel = async () => {
       try {
         const response = await fetch(
-          "http:192.168.100.169:3000/distancias/last"
+          "http://192.168.100.169:3000/distancias/last" // Asegúrate de que la URL esté correcta
         );
         const data = await response.json();
         const { porcentaje } = data;
@@ -29,7 +31,10 @@ const FullBattery: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.batteryText}>{`${batteryLevel}%`}</Text>
+      {/* Usamos el color primario del tema en el estilo del texto */}
+      <Text style={[styles.batteryText, { color: theme.colors.text }]}>
+        {`${batteryLevel}%`}
+      </Text>
       <Battery level={batteryLevel} />
     </View>
   );
@@ -44,7 +49,8 @@ const styles = StyleSheet.create({
   batteryText: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10, // Espaciado entre el texto y el componente de batería
+    marginBottom: 30, // Espaciado entre el texto y el componente de batería
+    marginTop: -20,
   },
 });
 

@@ -21,8 +21,6 @@ const Battery: React.FC<BatteryProps> = ({ level }) => {
 
   return (
     <View style={styles.batteryContainer}>
-      <Text style={styles.batteryText}>{`${batteryDisplayLevel}%`}</Text>
-
       <View style={styles.battery}>
         {[...Array(divisions)].map((_, index) => {
           const isFilled = index < filledBars;
