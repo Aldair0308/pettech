@@ -52,18 +52,18 @@ const styles = StyleSheet.create({
   batteryContainer: {
     alignItems: "center",
     justifyContent: "center",
-    height: 300, // Altura ajustada para mejor visibilidad
-    width: 120, // Ancho ajustado para que se vea bien
-    borderWidth: 4,
+    height: 450, // Altura ajustada para hacerla más alta
+    width: 200, // Ancho ajustado para hacerla más ancha
+    borderWidth: 6, // Grosor de borde mayor
     borderColor: "#B88B4A", // Color marrón de la batería
-    borderRadius: 10,
+    borderRadius: 15, // Radio de esquina mayor para una apariencia más suavizada
     position: "relative",
-    paddingBottom: 3,
+    paddingBottom: 4, // Ajuste de espacio abajo
   },
   batteryText: {
     position: "absolute",
-    top: 10,
-    fontSize: 24,
+    top: 15,
+    fontSize: 28, // Tamaño de fuente más grande
     fontWeight: "bold",
     color: "black",
   },
@@ -74,25 +74,25 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   bar: {
-    width: "96%", // Las barras tienen el mismo ancho
-    height: 45, // Hicimos las barras más anchas
-    borderRadius: 5,
+    width: "96%", // Las barras siguen con el mismo ancho
+    height: 68, // Barras más altas para que se vean más grandes
+    borderRadius: 8, // Bordes más redondeados
     backgroundColor: "transparent",
     position: "absolute",
-    marginHorizontal: 2,
+    marginHorizontal: 4, // Separación horizontal mayor
   },
   empty: {
     backgroundColor: "transparent", // Barras vacías (espacio transparente)
   },
   cap: {
-    width: 30,
-    height: 20,
+    width: 90,
+    height: 25,
     backgroundColor: "#B88B4A", // Color marrón de la tapa
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
     position: "absolute",
-    top: -20,
-    left: 42, // Centrado en la parte superior
+    top: -25,
+    left: 55, // Centrado en la parte superior
   },
 });
 
