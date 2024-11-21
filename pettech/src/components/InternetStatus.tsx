@@ -16,7 +16,7 @@ const InternetStatus: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  if (!isConnected === false) {
+  if (isConnected === false) {
     return (
       <View style={styles.noConnectionContainer}>
         <FontAwesome name="wifi" size={20} color="white" style={styles.icon} />
