@@ -47,12 +47,12 @@ export const lightTheme = {
 
 export const darkTheme = {
   colors: {
-    primary: "#34495E", // Azul oscuro para los íconos activos
-    text: "#ECF0F1", // Texto claro para los íconos inactivos
-    background: "#2C3E50", // Fondo oscuro para la barra de navegación
-    buttonBackground: "#FFCCB6", // Naranja vibrante para botones (si los usas en otro lugar)
+    primary: "#4C6A92", // Azul oscuro con menos contraste
+    text: "#ECF0F1", // Texto claro para buen contraste
+    background: "#2C3E50", // Fondo oscuro neutro
+    buttonBackground: "#7F8C8D", // Gris suave para los botones
     buttonText: "white", // Texto blanco para los botones
-    hora: "white", // Color blanco para mostrar la hora
+    hora: "#B0BEC5", // Color gris claro para la hora
   },
   styles: StyleSheet.create({
     container: {
@@ -70,18 +70,18 @@ export const darkTheme = {
       margin: 8,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#34495E", // Azul más claro
+      backgroundColor: "#34495E", // Azul más claro que el fondo
     },
     text: {
       fontSize: 18,
       fontWeight: "bold",
-      color: "#ECF0F1",
+      color: "#ECF0F1", // Blanco claro para el texto
     },
     button: {
       padding: 10,
       borderRadius: 5,
       marginTop: 20,
-      backgroundColor: "#E67E22",
+      backgroundColor: "#7F8C8D", // Gris suave para los botones
     },
     buttonText: {
       fontWeight: "bold",

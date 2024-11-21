@@ -88,7 +88,6 @@ const PerfilForm: React.FC = () => {
 
   return (
     <View style={[theme.styles.container, styles.container]}>
-      <Text style={{ ...styles.title, marginBottom: 80 }}>Edita tu Perfil</Text>
       <Text style={styles.promtText}>Ingresa tu nombre</Text>
       <TextInput
         style={[styles.input, { width: 280 }]} // Ajuste del ancho

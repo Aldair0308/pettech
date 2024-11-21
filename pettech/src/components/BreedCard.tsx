@@ -29,7 +29,6 @@ interface BreedCardProps {
   breeds: Breed[];
 }
 
-// Utiliza un guion bajo o guion en lugar de espacios
 const images = {
   Yorkshire_Terrier: require("./../../assets/Terrier.jpg"),
   Chihuahua: require("./../../assets/photo-chihuahua.jpg"),
@@ -45,39 +44,36 @@ const images = {
   Pastor_Alemán: require("./../../assets/pastor.jpg"),
   Husky_Siberiano: require("./../../assets/husky.jpg"),
   Rottweiler: require("./../../assets/rottweiler.jpg"),
-  // Agrega otras razas aquí
+  // Agrega más razas aquí
 };
 
 const BreedCard: React.FC<BreedCardProps> = ({ breeds }) => {
   const navigation = useNavigation();
+  const { theme } = useTheme();
 
   const handlePress = (breed: Breed) => {
     navigation.navigate("BreedDetail", { breed });
   };
 
-  const { theme } = useTheme();
-
   const renderItem = ({ item }: { item: Breed }) => {
-    // Reemplaza espacios por guiones bajos para buscar la imagen
-    const breedImageKey = item.raza.replace(/ /g, "_"); // Cambiado
+    const breedImageKey = item.raza.replace(/ /g, "_");
     const imageSource =
       images[breedImageKey] || require("./../../assets/photo-chihuahua.jpg");
 
     return (
       <TouchableOpacity
-        style={{
-          ...styles.card,
-          backgroundColor: theme.colors.buttonBackground,
-        }}
+        style={[
+          styles.card,
+          { backgroundColor: theme.colors.buttonBackground },
+        ]}
         onPress={() => handlePress(item)}
       >
         <Image source={imageSource} style={styles.image} />
         <Text
-          style={{
-            ...styles.title,
-            color: theme.colors.buttonText,
-            alignSelf: "center",
-          }}
+          style={[
+            styles.title,
+            { color: theme.colors.buttonText, alignSelf: "center" },
+          ]}
         >
           {item.raza}
         </Text>
@@ -105,7 +101,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   card: {
-    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 10,
     marginVertical: 8,

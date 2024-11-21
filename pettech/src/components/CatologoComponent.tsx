@@ -11,7 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import BreedCard from "./BreedCard"; // Importa el componente donde mostrarás las razas
 import { useTheme } from "./../hooks/useTheme"; // Importa el hook useTheme
 
-const CatalogoComponent = () => {
+const CatalogoComponent: React.FC = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState<boolean>(false);
   const [breeds, setBreeds] = useState<any[]>([]); // Cambia el tipo según tu estructura de datos
@@ -23,15 +23,15 @@ const CatalogoComponent = () => {
 
     switch (raza) {
       case "Pequeña":
-        url = "http:192.168.100.169:3000/breeds/category/chico";
+        url = "http://192.168.100.169:3000/breeds/category/chico";
         setCurrentCategory("pequeña"); // Guarda la categoría actual
         break;
       case "Mediana":
-        url = "http:192.168.100.169:3000/breeds/category/mediano";
+        url = "http://192.168.100.169:3000/breeds/category/mediano";
         setCurrentCategory("mediana");
         break;
       case "Grande":
-        url = "http:192.168.100.169:3000/breeds/category/grande";
+        url = "http://192.168.100.169:3000/breeds/category/grande";
         setCurrentCategory("grande");
         break;
       default:
@@ -121,6 +121,14 @@ const CatalogoComponent = () => {
             />
             <Text style={styles.buttonText}>RAZA GRANDE</Text>
           </TouchableOpacity>
+          {/* Botón para regresar */}
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.pop()}
+          >
+            <FontAwesome name="arrow-left" size={20} color="#fff" />
+            <Text style={styles.backButtonText}>Regresar</Text>
+          </TouchableOpacity>
         </>
       )}
     </View>
@@ -170,7 +178,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   resetButton: {
-    backgroundColor: "#6a7dc5",
+    backgroundColor: "#92aae8",
     borderRadius: 30,
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -181,6 +189,21 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     fontWeight: "bold",
+  },
+  // Estilo para el botón de regresar
+  backButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#6A51FF",
+    borderRadius: 30,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginBottom: 20, // Para darle espacio en la parte superior
+  },
+  backButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    marginLeft: 10,
   },
 });
 

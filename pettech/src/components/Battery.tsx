@@ -14,8 +14,8 @@ const Battery: React.FC<BatteryProps> = ({ level }) => {
 
   // Función para interpolar entre verde, amarillo y rojo
   const interpolateColor = (level: number) => {
-    if (level > 60) return "green";
-    if (level > 30) return "yellow";
+    if (level > 65) return "green";
+    if (level > 30) return "orange";
     return "red";
   };
 
