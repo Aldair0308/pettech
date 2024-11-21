@@ -18,7 +18,7 @@ const CamScreen = () => {
           { paddingHorizontal: 20, paddingTop: 20 },
         ]}
       >
-        {/* <EspCameraImageView streamUrl={cameraUrl} /> */}
+        <EspCameraImageView streamUrl={cameraUrl} />
       </View>
     </View>
   );

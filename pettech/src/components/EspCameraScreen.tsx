@@ -29,7 +29,7 @@ const EspCameraImageView: React.FC<EspCameraImageViewProps> = ({
       <Image
         source={{ uri: imageUrl }}
         style={styles.image}
-        onError={(error) => console.error("Error al cargar la imagen:", error)}
+        // onError={(error) => console.error("Error al cargar la imagen:", error)}
       />
     </View>
   );
