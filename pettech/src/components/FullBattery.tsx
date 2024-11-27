@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Battery from "./Battery"; // Asegúrate de que la ruta sea correcta
 import { useTheme } from "../hooks/useTheme"; // Asumiendo que useTheme está bien configurado
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FullBattery: React.FC = () => {
   const [batteryLevel, setBatteryLevel] = useState(0);
@@ -10,12 +11,15 @@ const FullBattery: React.FC = () => {
   useEffect(() => {
     const fetchBatteryLevel = async () => {
       try {
-        const response = await fetch(
-          "http://192.168.100.169:3000/distancias/last" // Asegúrate de que la URL esté correcta
-        );
-        const data = await response.json();
-        const { porcentaje } = data;
-        setBatteryLevel(Math.max(0, Math.min(100, porcentaje)));
+        const code = await AsyncStorage.getItem("dispenserCode");
+        if (code) {
+          const response = await fetch(
+            `http://192.168.100.169:3000/distancias/last/code/${code}` // Usando el code del AsyncStorage
+          );
+          const data = await response.json();
+          const { porcentaje } = data;
+          setBatteryLevel(Math.max(0, Math.min(100, porcentaje)));
+        }
       } catch (error) {
         console.error("Error fetching battery level:", error);
       }

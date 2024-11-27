@@ -13,6 +13,7 @@ export interface LoginResponse {
   photo: string;
   rol: string;
   name: string;
+  code: string;
 }
 
 export interface AuthState extends LoginResponse {
@@ -26,6 +27,7 @@ export const AuthInitialState: AuthState = {
   photo: "",
   rol: "",
   name: "",
+  code: "",
 };
 
 type AuthAction =
@@ -56,6 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const userPhoto = await AsyncStorage.getItem("userPhoto");
         const userRol = await AsyncStorage.getItem("userRol");
         const userName = await AsyncStorage.getItem("userName");
+        const userCode = await AsyncStorage.getItem("userCode");
 
         if (userId) {
           dispatch({
@@ -65,7 +68,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               photo: userPhoto || "",
               rol: userRol || "",
               name: userName || "",
-              email: "", // Puedes ajustar esto si necesitas cargar el email también
+              email: "",
+              code: userCode || "",
             },
           });
         }
@@ -104,6 +108,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     AsyncStorage.setItem("userName", user.name).catch((error) =>
       console.error("Error al guardar el nombre:", error)
     );
+    AsyncStorage.setItem("dispenserCode", user.code).catch((error) =>
+      console.error("Error al guardar el code:", error)
+    );
   };
 
   const logout = () => {
@@ -121,6 +128,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
     AsyncStorage.removeItem("userName").catch((error) =>
       console.error("Error al eliminar el nombre:", error)
+    );
+    AsyncStorage.removeItem("dispenserCode").catch((error) =>
+      console.error("Error al dispenser code:", error)
     );
   };
 

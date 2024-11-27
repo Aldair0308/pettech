@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+// RegisterScreen.tsx
+import React from "react";
 import {
   View,
   Text,
@@ -8,66 +9,35 @@ import {
   StyleSheet,
   Modal,
 } from "react-native";
-import { AuthContext } from "../context/AuthContext"; // Asegúrate de que la ruta sea correcta
+import { useRegister } from "../hooks/useRegister";
 
 const RegisterScreen = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const { signIn } = useContext(AuthContext); // Accede a la función signIn
-
-  const handleRegister = async () => {
-    if (password !== confirmPassword) {
-      setModalMessage("Las contraseñas no coinciden.");
-      setModalVisible(true);
-      return;
-    }
-
-    try {
-      const response = await fetch("http:192.168.100.169:3000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setModalMessage("Usuario creado exitosamente");
-        setModalVisible(true);
-
-        // Llama a signIn con los datos del usuario
-        signIn({
-          accessToken: "", // Si no tienes un token, puedes dejarlo vacío
-          user: {
-            _id: data._id,
-            email: data.email,
-            photo: data.photo,
-            rol: data.rol,
-            name: data.name,
-          },
-        });
-
-        setTimeout(() => {
-          navigation.navigate("Registro"); // Navegar a la pantalla de login
-        }, 2000);
-      } else {
-        setModalMessage(data.message || "Error al crear usuario");
-        setModalVisible(true);
-      }
-    } catch (error) {
-      setModalMessage(
-        "Hubo un error al registrarse. Por favor, inténtalo de nuevo."
-      );
-      setModalVisible(true);
-    }
-  };
+  const {
+    name,
+    setName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    dispenserCode,
+    setDispenserCode,
+    wifiName,
+    setWifiName,
+    wifiPassword,
+    setWifiPassword,
+    error,
+    modalVisible,
+    setModalVisible,
+    modalMessage,
+    handleRegister,
+    dispenserModalVisible,
+    handleDispenserCodeSubmit,
+    setDispenserModalVisible,
+    wifiModalVisible,
+    handleWifiSubmit,
+  } = useRegister();
 
   return (
     <View style={styles.container}>
@@ -148,6 +118,69 @@ const RegisterScreen = ({ navigation }) => {
               onPress={() => setModalVisible(false)}
             >
               <Text style={styles.modalButtonText}>Cerrar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal para el código del dispensador */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={dispenserModalVisible}
+        onRequestClose={() => setDispenserModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>
+              Ingresa el código del dispensador
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Código del dispensador"
+              onChangeText={(text) => setDispenserCode(text)}
+              value={dispenserCode}
+            />
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleDispenserCodeSubmit}
+            >
+              <Text style={styles.modalButtonText}>Confirmar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal para configurar WiFi */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={wifiModalVisible}
+        onRequestClose={() => setDispenserModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>
+              Configura el WiFi del dispensador
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre de la red WiFi"
+              onChangeText={(text) => setWifiName(text)}
+              value={wifiName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Contraseña del WiFi"
+              secureTextEntry
+              onChangeText={(text) => setWifiPassword(text)}
+              value={wifiPassword}
+            />
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleWifiSubmit}
+            >
+              <Text style={styles.modalButtonText}>Confirmar WiFi</Text>
             </TouchableOpacity>
           </View>
         </View>
