@@ -71,10 +71,7 @@ const RegistroScreen = ({ navigation }) => {
           value={name}
         />
         <View style={{ width: "80%" }}>
-          <Text style={styles.promtText}>
-            {" "}
-            selecciona el tamaño de tu mascota
-          </Text>
+          <Text style={styles.promtText}> selecciona el tamaño de raza</Text>
         </View>
         <View style={styles.pickerContainer}>
           <Picker
@@ -90,7 +87,7 @@ const RegistroScreen = ({ navigation }) => {
         </View>
 
         <View style={{ width: "80%" }}>
-          <Text style={styles.promtText}>selecciona la raza de tu mascota</Text>
+          <Text style={styles.promtText}>escribe la raza de tu mascota</Text>
         </View>
         <TextInput
           style={styles.input}
@@ -103,12 +100,21 @@ const RegistroScreen = ({ navigation }) => {
             selecciona la edad de tu mascota{" "}
           </Text>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Edad de tu mascota"
-          onChangeText={(text) => setEdad(text)}
-          value={edad}
-        />
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={edad}
+            style={styles.picker} // Aplica el estilo aquí
+            onValueChange={(itemValue) => setEdad(itemValue)}
+          >
+            <Picker.Item label="Selecciona un tamaño" value="" />
+            <Picker.Item label="De 1 a 6 meses" value="De 1 a 6 meses" />
+            <Picker.Item label="De 7 a 12 meses" value="De 7 a 12 meses" />
+            <Picker.Item label="De 1 a 3 años" value="De 1 a 3 años" />
+            <Picker.Item label="De 4 a 6 años" value="De 4 a 6 años" />
+            <Picker.Item label="De 7 a 10 años" value="De 7 a 10 años" />
+            <Picker.Item label="Mayor de 10 años" value="Mayor de 10 años" />
+          </Picker>
+        </View>
         <Text style={styles.registerText}>
           {" "}
           Configura su horario de alimentacion{" "}
