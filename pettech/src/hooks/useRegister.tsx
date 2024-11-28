@@ -1,4 +1,3 @@
-// useRegister.tsx
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
@@ -28,13 +27,19 @@ export const useRegister = () => {
       return;
     }
 
-    // Mostrar el modal para ingresar el código del dispensador
     setDispenserModalVisible(true);
+  };
+
+  const closeDispenserModal = () => {
+    setDispenserModalVisible(false);
+  };
+
+  const closeWifiModal = () => {
+    setWifiModalVisible(false);
   };
 
   const handleDispenserCodeSubmit = async () => {
     try {
-      // Verificar el código del dispensador
       const dispenserResponse = await fetch(
         `http://192.168.100.169:3000/dispenser/code/${dispenserCode}`
       );
@@ -49,12 +54,10 @@ export const useRegister = () => {
         return;
       }
 
-      // Si el dispensador no tiene configurado el WiFi, mostrar el modal para configurarlo
       if (!dispenser.wifi || !dispenser.password) {
         setWifiModalVisible(true);
         setDispenserModalVisible(false);
       } else {
-        // Registrar al usuario si el dispensador es válido y tiene WiFi configurado
         await registerUser();
       }
     } catch (error) {
@@ -68,7 +71,6 @@ export const useRegister = () => {
 
   const handleWifiSubmit = async () => {
     try {
-      // Actualizar el dispensador con la información del WiFi
       const dispenserResponse = await fetch(
         `http://192.168.100.169:3000/dispenser/code/${dispenserCode}`
       );
@@ -89,7 +91,6 @@ export const useRegister = () => {
         setModalMessage("WiFi configurado exitosamente");
         setModalVisible(true);
         setWifiModalVisible(false);
-        // Registrar al usuario después de configurar el WiFi
         await registerUser();
       } else {
         setModalMessage(
@@ -127,7 +128,6 @@ export const useRegister = () => {
         setModalVisible(true);
         setDispenserModalVisible(false);
 
-        // Guardar el código del dispensador en AsyncStorage
         await AsyncStorage.setItem("dispenserCode", dispenserCode);
 
         signIn({
@@ -174,14 +174,18 @@ export const useRegister = () => {
     wifiPassword,
     setWifiPassword,
     error,
+    setError,
     modalVisible,
     setModalVisible,
     modalMessage,
+    setModalMessage,
     handleRegister,
     dispenserModalVisible,
     setDispenserModalVisible,
+    closeDispenserModal,
     handleDispenserCodeSubmit,
     wifiModalVisible,
+    closeWifiModal,
     handleWifiSubmit,
   };
 };

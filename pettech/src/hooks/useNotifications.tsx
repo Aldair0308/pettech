@@ -3,9 +3,8 @@ import { Platform, Alert } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Importar AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// messages.ts (o directamente en el archivo del hook)
 export const messages = {
   paymentReminder: "El alimento ha sido dispensado",
   energyReminder: "El alimentador ha sido desconectado de la fuente de energía",
@@ -23,19 +22,31 @@ Notifications.setNotificationHandler({
 
 type NotificationHookResult = {
   expoPushToken: string | null;
+  sendPushNotification: () => Promise<void>;
 };
 
 const useNotification = (): NotificationHookResult => {
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
 
+  // Función segura para guardar en AsyncStorage
+  const safeSetItem = async (key: string, value: string | null | undefined) => {
+    try {
+      if (value === undefined || value === null) {
+        console.warn(
+          `No se puede guardar un valor nulo o indefinido. Clave: ${key}`
+        );
+        return;
+      }
+      await AsyncStorage.setItem(key, value);
+      console.log(`Guardado en AsyncStorage: ${key} = ${value}`);
+    } catch (error) {
+      console.error(`Error guardando ${key}:`, error);
+    }
+  };
+
   // Función para guardar el token en AsyncStorage
   const savePushTokenToStorage = async (token: string) => {
-    try {
-      await AsyncStorage.setItem("expoPushToken", token); // Guardamos el token
-      console.log("Push token guardado en AsyncStorage:", token);
-    } catch (error) {
-      console.error("Error guardando el token en AsyncStorage", error);
-    }
+    await safeSetItem("expoPushToken", token);
   };
 
   // Función para recuperar el token desde AsyncStorage
@@ -51,28 +62,38 @@ const useNotification = (): NotificationHookResult => {
     }
   };
 
-  // Función para recuperar el userId desde AsyncStorage
-  const getUserIdFromStorage = async () => {
-    try {
-      const userId = await AsyncStorage.getItem("userId");
-      if (!userId) {
-        throw new Error("No se ha encontrado el userId en AsyncStorage.");
+  // Función para recuperar el userId desde AsyncStorage con reintentos
+  const getUserIdWithRetries = async (
+    maxRetries = 10,
+    delay = 500
+  ): Promise<string> => {
+    let retries = 0;
+
+    while (retries < maxRetries) {
+      try {
+        const userId = await AsyncStorage.getItem("userId");
+        if (userId) {
+          console.log("UserId encontrado:", userId);
+          return userId;
+        }
+      } catch (error) {
+        console.error("Error recuperando el userId desde AsyncStorage", error);
       }
-      return userId;
-    } catch (error) {
-      console.error("Error recuperando el userId desde AsyncStorage", error);
-      throw error;
+
+      retries++;
+      console.log(`Reintentando obtener userId... (${retries}/${maxRetries})`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
+
+    throw new Error("No se encontró el userId después de múltiples intentos.");
   };
 
   // Función para enviar el token a la API
   const sendPushTokenToApi = async (pushToken: string) => {
     try {
-      const userId = await getUserIdFromStorage(); // Recuperamos el userId
-      const apiUrl = `http://192.168.100.169:3000/users/id/${userId}`; // URL de la API
-      const jsonPayload = {
-        pushToken: pushToken, // Mandamos solo el pushToken
-      };
+      const userId = await getUserIdWithRetries();
+      const apiUrl = `http://192.168.100.169:3000/users/id/${userId}`;
+      const jsonPayload = { pushToken };
 
       const response = await fetch(apiUrl, {
         method: "PUT",
@@ -96,7 +117,6 @@ const useNotification = (): NotificationHookResult => {
   };
 
   useEffect(() => {
-    // Recupera el token guardado al inicio si existe
     getPushTokenFromStorage();
 
     const registerForPushNotificationsAsync = async (): Promise<void> => {
@@ -106,7 +126,7 @@ const useNotification = (): NotificationHookResult => {
             name: "default",
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],
-            lightColor: "#FF231F7C", // Color de la luz en Android
+            lightColor: "#FF231F7C",
           });
         }
 
@@ -114,36 +134,33 @@ const useNotification = (): NotificationHookResult => {
           const { status: existingStatus } =
             await Notifications.getPermissionsAsync();
           let finalStatus = existingStatus;
+
           if (existingStatus !== "granted") {
             const { status } = await Notifications.requestPermissionsAsync();
             finalStatus = status;
           }
+
           if (finalStatus !== "granted") {
             Alert.alert("Failed to get push token for push notification!");
-            throw new Error("Failed to get push token for push notification!");
+            return;
           }
 
-          const expoPushTokenResponse =
-            await Notifications.getExpoPushTokenAsync({
-              projectId: Constants.expoConfig?.extra?.eas?.projectId || "",
-            });
+          const tokenResponse = await Notifications.getExpoPushTokenAsync({
+            projectId: Constants.expoConfig?.extra?.eas?.projectId || "",
+          });
 
-          if (expoPushTokenResponse.data) {
-            setExpoPushToken(expoPushTokenResponse.data);
-            // Guarda el token en AsyncStorage
-            savePushTokenToStorage(expoPushTokenResponse.data);
-            // Enviar el token a la API
-            sendPushTokenToApi(expoPushTokenResponse.data);
-          } else {
-            console.warn("No token received.");
+          if (tokenResponse.data) {
+            setExpoPushToken(tokenResponse.data);
+            await savePushTokenToStorage(tokenResponse.data);
+            await sendPushTokenToApi(tokenResponse.data);
           }
         } else {
-          Alert.alert("Must use a physical device for Push Notifications");
-          throw new Error("Must use a physical device for Push Notifications");
+          Alert.alert(
+            "Debe usar un dispositivo físico para las notificaciones push."
+          );
         }
       } catch (error) {
-        Alert.alert("Error", "No se pudo obtener el token de notificación.");
-        console.error("Error getting Expo Push Token:", error);
+        console.error("Error obteniendo el token de notificación:", error);
       }
     };
 
@@ -153,7 +170,7 @@ const useNotification = (): NotificationHookResult => {
       (response) => {
         const { messageType } = response.notification.request.content.data;
         const message = messages[messageType] || "Mensaje predeterminado";
-        Alert.alert("Notificación", message); // Solo muestra el mensaje
+        Alert.alert("Notificación", message);
       }
     );
 
@@ -168,34 +185,23 @@ const useNotification = (): NotificationHookResult => {
       return;
     }
 
-    const message = messages.paymentReminder; // Primer mensaje a enviar
+    const message = messages.paymentReminder;
 
-    const messagePayload = {
+    const payload = {
       to: expoPushToken,
       sound: "default",
-      title: "Alimento dispensado", // Título de la notificación
+      title: "Alimento dispensado",
       body: message,
-      data: {
-        messageType: "paymentReminder", // Especificar el tipo de mensaje
-      },
-      android: {
-        icon: "./assets/icon.png", // Icono personalizado para la notificación en Android
-        color: "#FF231F7C", // Color de la notificación en Android
-      },
-      ios: {
-        icon: "./assets/icon.png", // Icono personalizado para la notificación en iOS
-      },
+      data: { messageType: "paymentReminder" },
     };
 
     try {
-      // Enviar la notificación a la Expo Push API
       const response = await fetch("https://exp.host/--/api/v2/push/send", {
         method: "POST",
         headers: {
-          Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(messagePayload),
+        body: JSON.stringify(payload),
       });
 
       const responseJson = await response.json();

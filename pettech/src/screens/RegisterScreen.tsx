@@ -1,4 +1,3 @@
-// RegisterScreen.tsx
 import React from "react";
 import {
   View,
@@ -6,10 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  StyleSheet,
   Modal,
 } from "react-native";
 import { useRegister } from "../hooks/useRegister";
+import useValidation from "../hooks/useValidation";
+import styles from "./../themes/registroStyles";
 
 const RegisterScreen = ({ navigation }) => {
   const {
@@ -27,17 +27,35 @@ const RegisterScreen = ({ navigation }) => {
     setWifiName,
     wifiPassword,
     setWifiPassword,
-    error,
     modalVisible,
     setModalVisible,
     modalMessage,
-    handleRegister,
-    dispenserModalVisible,
+    setModalMessage,
     handleDispenserCodeSubmit,
-    setDispenserModalVisible,
     wifiModalVisible,
     handleWifiSubmit,
+    setDispenserModalVisible,
+    dispenserModalVisible,
   } = useRegister();
+
+  const { errors, validateForm } = useValidation();
+
+  const handleRegisterWithValidation = () => {
+    const isValid = validateForm({
+      name,
+      email,
+      password,
+      confirmPassword,
+    });
+
+    if (!isValid) {
+      setModalMessage("Por favor, corrige los errores del formulario.");
+      setModalVisible(true);
+      return;
+    }
+
+    setDispenserModalVisible(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -63,6 +81,7 @@ const RegisterScreen = ({ navigation }) => {
           onChangeText={(text) => setName(text)}
           value={name}
         />
+        {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
         <View style={{ width: "80%" }}>
           <Text style={styles.promtText}> Ingresa tu correo</Text>
         </View>
@@ -73,6 +92,7 @@ const RegisterScreen = ({ navigation }) => {
           value={email}
           keyboardType="email-address"
         />
+        {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
         <View style={{ width: "80%" }}>
           <Text style={styles.promtText}> Ingresa tu contraseña</Text>
         </View>
@@ -83,6 +103,9 @@ const RegisterScreen = ({ navigation }) => {
           value={password}
           secureTextEntry
         />
+        {errors.password && (
+          <Text style={styles.errorText}>{errors.password}</Text>
+        )}
         <View style={{ width: "80%" }}>
           <Text style={styles.promtText}> Confirma tu contraseña</Text>
         </View>
@@ -93,8 +116,13 @@ const RegisterScreen = ({ navigation }) => {
           value={confirmPassword}
           secureTextEntry
         />
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        {errors.confirmPassword && (
+          <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+        )}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleRegisterWithValidation}
+        >
           <Text style={styles.buttonText}> SIGN UP</Text>
         </TouchableOpacity>
       </View>
@@ -111,13 +139,13 @@ const RegisterScreen = ({ navigation }) => {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>{modalMessage}</Text>
+          <View style={styles.modalContainer2}>
+            <Text style={styles.modalText2}>{modalMessage}</Text>
             <TouchableOpacity
-              style={styles.modalButton}
+              style={styles.modalButton2}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.modalButtonText}>Cerrar</Text>
+              <Text style={styles.modalButtonText2}>Cerrar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -131,8 +159,8 @@ const RegisterScreen = ({ navigation }) => {
         onRequestClose={() => setDispenserModalVisible(false)}
       >
         <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>
+          <View style={styles.modalContainer2}>
+            <Text style={styles.modalText2}>
               Ingresa el código del dispensador
             </Text>
             <TextInput
@@ -141,12 +169,25 @@ const RegisterScreen = ({ navigation }) => {
               onChangeText={(text) => setDispenserCode(text)}
               value={dispenserCode}
             />
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleDispenserCodeSubmit}
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "space-around",
+              }}
             >
-              <Text style={styles.modalButtonText}>Confirmar</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalButton2}
+                onPress={handleDispenserCodeSubmit}
+              >
+                <Text style={styles.modalButtonText2}>Confirmar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setDispenserModalVisible(false)}
+              >
+                <Text style={styles.modalButtonText2}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -156,11 +197,11 @@ const RegisterScreen = ({ navigation }) => {
         animationType="slide"
         transparent={true}
         visible={wifiModalVisible}
-        onRequestClose={() => setDispenserModalVisible(false)}
+        onRequestClose={() => setWifiModalVisible(false)}
       >
         <View style={styles.modalBackground}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>
+          <View style={styles.modalContainer2}>
+            <Text style={styles.modalText2}>
               Configura el WiFi del dispensador
             </Text>
             <TextInput
@@ -176,108 +217,30 @@ const RegisterScreen = ({ navigation }) => {
               onChangeText={(text) => setWifiPassword(text)}
               value={wifiPassword}
             />
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleWifiSubmit}
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "space-around",
+              }}
             >
-              <Text style={styles.modalButtonText}>Confirmar WiFi</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalButton2}
+                onPress={handleWifiSubmit}
+              >
+                <Text style={styles.modalButtonText2}>Confirmar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setWifiModalVisible(false)}
+              >
+                <Text style={styles.modalButtonText2}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.95)",
-  },
-  registerText: {
-    fontSize: 15,
-    color: "#5d73c4",
-    marginBottom: -3,
-  },
-  promtText: {
-    fontSize: 15,
-    color: "gray",
-    marginBottom: 3,
-  },
-  headerImage: {
-    width: "100%",
-    height: 200,
-  },
-  footerImage: {
-    width: "100%",
-    height: 100,
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  title: {
-    fontSize: 44,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#8396dc",
-  },
-  input: {
-    width: "90%",
-    height: 50,
-    backgroundColor: "white",
-    borderRadius: 50,
-    marginBottom: 12,
-    paddingHorizontal: 15,
-    borderColor: "gray",
-    borderWidth: 2,
-  },
-  errorText: {
-    color: "red",
-    marginBottom: 10,
-  },
-  button: {
-    width: 200,
-    height: 60,
-    backgroundColor: "#6a7dc5",
-    borderRadius: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 9,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 26,
-  },
-  modalBackground: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContainer: {
-    width: 300,
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  modalButton: {
-    backgroundColor: "#6a7dc5",
-    padding: 10,
-    borderRadius: 5,
-  },
-  modalButtonText: {
-    color: "white",
-    fontSize: 16,
-  },
-});
 
 export default RegisterScreen;
