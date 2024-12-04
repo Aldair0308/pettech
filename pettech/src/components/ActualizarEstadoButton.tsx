@@ -7,7 +7,7 @@ const ActualizarEstadoButton = () => {
   const handlePress = async () => {
     try {
       const response = await fetch(
-        "http://192.168.100.169:3000/distancias/update-last-state",
+        "https://alimentador-production-15ae.up.railway.app/distancias/update-last-state",
         {
           method: "POST",
           headers: {

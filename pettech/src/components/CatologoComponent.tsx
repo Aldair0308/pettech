@@ -23,15 +23,18 @@ const CatalogoComponent: React.FC = () => {
 
     switch (raza) {
       case "Pequeña":
-        url = "http://192.168.100.169:3000/breeds/category/chico";
+        url =
+          "https://alimentador-production-15ae.up.railway.app/breeds/category/chico";
         setCurrentCategory("pequeña"); // Guarda la categoría actual
         break;
       case "Mediana":
-        url = "http://192.168.100.169:3000/breeds/category/mediano";
+        url =
+          "https://alimentador-production-15ae.up.railway.app/breeds/category/mediano";
         setCurrentCategory("mediana");
         break;
       case "Grande":
-        url = "http://192.168.100.169:3000/breeds/category/grande";
+        url =
+          "https://alimentador-production-15ae.up.railway.app/breeds/category/grande";
         setCurrentCategory("grande");
         break;
       default:

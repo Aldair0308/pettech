@@ -20,6 +20,7 @@ export const useRegister = () => {
   const navigation = useNavigation();
   const { signIn } = useContext(AuthContext);
 
+  // Validar el registro inicial
   const handleRegister = async () => {
     if (password !== confirmPassword) {
       setModalMessage("Las contraseñas no coinciden.");
@@ -30,18 +31,21 @@ export const useRegister = () => {
     setDispenserModalVisible(true);
   };
 
+  // Cerrar modal del dispensador
   const closeDispenserModal = () => {
     setDispenserModalVisible(false);
   };
 
+  // Cerrar modal del WiFi
   const closeWifiModal = () => {
     setWifiModalVisible(false);
   };
 
+  // Enviar el código del dispensador
   const handleDispenserCodeSubmit = async () => {
     try {
       const dispenserResponse = await fetch(
-        `http://192.168.100.169:3000/dispenser/code/${dispenserCode}`
+        `https://alimentador-production-15ae.up.railway.app/dispenser/code/${dispenserCode}`
       );
       const dispenser = await dispenserResponse.json();
 
@@ -69,49 +73,11 @@ export const useRegister = () => {
     }
   };
 
-  const handleWifiSubmit = async () => {
-    try {
-      const dispenserResponse = await fetch(
-        `http://192.168.100.169:3000/dispenser/code/${dispenserCode}`
-      );
-      const dispenser = await dispenserResponse.json();
-
-      const response = await fetch(
-        `http://192.168.100.169:3000/dispenser/${dispenser._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ wifi: wifiName, password: wifiPassword }),
-        }
-      );
-
-      if (response.ok) {
-        setModalMessage("WiFi configurado exitosamente");
-        setModalVisible(true);
-        setWifiModalVisible(false);
-        await registerUser();
-      } else {
-        setModalMessage(
-          "Error al configurar el WiFi. Por favor, intenta de nuevo."
-        );
-        setModalVisible(true);
-        setWifiModalVisible(true);
-      }
-    } catch (error) {
-      setModalMessage(
-        "Hubo un error al configurar el WiFi. Por favor, inténtalo de nuevo."
-      );
-      setModalVisible(true);
-      setWifiModalVisible(true);
-    }
-  };
-
+  // Registrar el usuario
   const registerUser = async () => {
     try {
       const response = await fetch(
-        "http://192.168.100.169:3000/auth/register",
+        "https://alimentador-production-15ae.up.railway.app/auth/register",
         {
           method: "POST",
           headers: {
@@ -128,16 +94,23 @@ export const useRegister = () => {
         setModalVisible(true);
         setDispenserModalVisible(false);
 
-        await AsyncStorage.setItem("dispenserCode", dispenserCode);
+        // Guardar los datos del usuario en AsyncStorage
+        await AsyncStorage.setItem("userId", data._id);
+        await AsyncStorage.setItem("userEmail", data.email);
+        await AsyncStorage.setItem("userPhoto", data.photo);
+        await AsyncStorage.setItem("userName", data.name);
+        await AsyncStorage.setItem("dispenserCode", data.code);
 
+        // Llamar a signIn con los datos del usuario
         signIn({
           accessToken: "",
           user: {
             _id: data._id,
             email: data.email,
             photo: data.photo,
-            rol: data.rol,
+            rol: data.rol || "",
             name: data.name,
+            code: data.code,
           },
         });
 
@@ -155,6 +128,57 @@ export const useRegister = () => {
       );
       setModalVisible(true);
       setDispenserModalVisible(true);
+    }
+  };
+
+  // Configurar WiFi
+  const handleWifiSubmit = async () => {
+    try {
+      // Obtener el código del dispensador desde AsyncStorage
+      const savedCode = await AsyncStorage.getItem("dispenserCode");
+      if (!savedCode) {
+        setModalMessage("No se encontró un código de dispensador guardado.");
+        setModalVisible(true);
+        return;
+      }
+
+      // Buscar el dispensador usando el código
+      const dispenserResponse = await fetch(
+        `https://alimentador-production-15ae.up.railway.app/dispenser/code/${savedCode}`
+      );
+      const dispenser = await dispenserResponse.json();
+
+      if (!dispenser || dispenser.error) {
+        setModalMessage("No se encontró un dispensador con ese código.");
+        setModalVisible(true);
+        return;
+      }
+
+      // Hacer un PUT para actualizar los datos del WiFi
+      const response = await fetch(
+        `https://alimentador-production-15ae.up.railway.app/dispenser/${dispenser._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ wifi: wifiName, password: wifiPassword }),
+        }
+      );
+
+      if (response.ok) {
+        setModalMessage("WiFi configurado exitosamente.");
+        setModalVisible(true);
+        setWifiModalVisible(false);
+      } else {
+        setModalMessage("Error al configurar el WiFi. Inténtalo de nuevo.");
+        setModalVisible(true);
+      }
+    } catch (error) {
+      setModalMessage(
+        "Hubo un error al configurar el WiFi. Por favor, inténtalo de nuevo."
+      );
+      setModalVisible(true);
     }
   };
 
@@ -185,7 +209,9 @@ export const useRegister = () => {
     closeDispenserModal,
     handleDispenserCodeSubmit,
     wifiModalVisible,
+    setWifiModalVisible,
     closeWifiModal,
     handleWifiSubmit,
+    registerUser,
   };
 };

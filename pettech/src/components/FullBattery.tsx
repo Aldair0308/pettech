@@ -14,7 +14,7 @@ const FullBattery: React.FC = () => {
         const code = await AsyncStorage.getItem("dispenserCode");
         if (code) {
           const response = await fetch(
-            `http://192.168.100.169:3000/distancias/last/code/${code}` // Usando el code del AsyncStorage
+            `https://alimentador-production-15ae.up.railway.app/distancias/last/code/${code}` // Usando el code del AsyncStorage
           );
           const data = await response.json();
           const { porcentaje } = data;

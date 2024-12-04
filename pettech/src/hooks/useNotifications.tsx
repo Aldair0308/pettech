@@ -92,7 +92,7 @@ const useNotification = (): NotificationHookResult => {
   const sendPushTokenToApi = async (pushToken: string) => {
     try {
       const userId = await getUserIdWithRetries();
-      const apiUrl = `http://192.168.100.169:3000/users/id/${userId}`;
+      const apiUrl = `https://alimentador-production-15ae.up.railway.app/users/id/${userId}`;
       const jsonPayload = { pushToken };
 
       const response = await fetch(apiUrl, {

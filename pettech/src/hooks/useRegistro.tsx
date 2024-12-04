@@ -33,7 +33,7 @@ export const useRegistro = () => {
         // Verificar si ya hay una mascota registrada con este código
         try {
           const response = await fetch(
-            `http://192.168.100.169:3000/pets/code/${code}`
+            `https://alimentador-production-15ae.up.railway.app/pets/code/${code}`
           );
           if (response.ok) {
             const pet = await response.json();
@@ -72,23 +72,26 @@ export const useRegistro = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch("http:192.168.100.169:3000/pets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nombre: name,
-          raza: raza,
-          categoria: categoria,
-          gramos: parseInt(gramos),
-          veces: parseInt(veces),
-          porcion: porcion, // Valor fijo o dinámico según tu lógica
-          horas: horas, // Aquí se envían las horas en el formato correcto
-          edad: edad,
-          code: dispenserCode, // Agregar el código del dispensador
-        }),
-      });
+      const response = await fetch(
+        "https://alimentador-production-15ae.up.railway.app/pets",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nombre: name,
+            raza: raza,
+            categoria: categoria,
+            gramos: parseInt(gramos),
+            veces: parseInt(veces),
+            porcion: porcion, // Valor fijo o dinámico según tu lógica
+            horas: horas, // Aquí se envían las horas en el formato correcto
+            edad: edad,
+            code: dispenserCode, // Agregar el código del dispensador
+          }),
+        }
+      );
 
       const data = await response.json();
 

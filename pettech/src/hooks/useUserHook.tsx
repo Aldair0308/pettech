@@ -31,7 +31,7 @@ export const useUserHook = () => {
         throw new Error("User ID not found in AsyncStorage");
       }
       const response = await fetch(
-        `http:192.168.100.169:3000/users/id/${userId}`
+        `https://alimentador-production-15ae.up.railway.app/users/id/${userId}`
       );
       if (!response.ok) {
         throw new Error(
