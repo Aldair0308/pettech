@@ -4,37 +4,12 @@
     "slug": "pettech",
     "version": "1.2.0",
     "orientation": "portrait",
-    "icon": "./assets/icon_pet.jpg",
+    "icon": "./assets/icon_pet.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.radial51.pettech",
-      "statusBar": {
-        "style": "dark-content",
-        "backgroundColor": "#ffffff"
-      },
-      "infoPlist": {
-        "UIBackgroundModes": ["fetch", "remote-notification"], 
-        "NSUserTrackingUsageDescription": "Esta app utiliza notificaciones para enviar alertas importantes sobre el dispensador de alimento."
-      },
-      "config": {
-        "googleSignIn": {
-          "reservedClientId": "YOUR_IOS_REVERSED_CLIENT_ID" 
-        }
-      },
-      "entitlements": {
-        "aps-environment": "production"
-      },
-      "notification": {
-        "icon": "./assets/icon.png",
-        "color": "#FF231F7C",
-        "displayInForeground": true
-      }
     },
     "android": {
       "adaptiveIcon": {
@@ -42,10 +17,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.radial51.pettech",
-      "statusBar": {
-        "backgroundColor": "#ffffff",
-        "barStyle": "dark-content"
-      },
       "permissions": ["NOTIFICATIONS"],
       "notification": {
         "icon": "./assets/icon.png",
