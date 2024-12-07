@@ -32,6 +32,11 @@ const DrawerContent = () => {
         screenName="CatalogoScreen"
         title="Catalogo"
       />
+      <DrawerButton
+        navigation={navigation}
+        screenName="Problem"
+        title="Ayuda"
+      />
       <LogoutButtonComponent />
     </View>
   );

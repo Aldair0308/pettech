@@ -13,6 +13,8 @@ import CatalogoScreen from "../screens/CatalogoScreen";
 import PerfilScreen from "../screens/PerfilScreen";
 import TemaScreen from "../screens/TemaScreen";
 import PhotoScreen from "../components/PhotoScreen";
+import ProblemScreen from "../screens/ProblemScreen";
+import FormProblemScreen from "../screens/FormProblemScreen";
 
 const Stack = createStackNavigator();
 
@@ -40,6 +42,7 @@ const MainStackNavigator: React.FC = () => {
         <Stack.Screen name="Perfil" component={PerfilScreen} />
         <Stack.Screen name="Tema" component={TemaScreen} />
         <Stack.Screen name="Photo" component={PhotoScreen} />
+        <Stack.Screen name="Problem" component={ProblemScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

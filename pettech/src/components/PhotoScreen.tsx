@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../hooks/useTheme";
+import { useNavigation } from "@react-navigation/native";
 
 const PhotoScreen: React.FC = () => {
   const { theme } = useTheme();
+  const navigation = useNavigation(); // Hook para navegación
   const [selectedPhoto, setSelectedPhoto] = useState("photo_user.jpg");
 
   const handlePhotoSelect = (photoName: string) => {
@@ -21,6 +23,11 @@ const PhotoScreen: React.FC = () => {
   const updatePhoto = async () => {
     try {
       const userId = await AsyncStorage.getItem("userId");
+
+      if (!userId) {
+        Alert.alert("Error", "No se pudo obtener el ID del usuario.");
+        return;
+      }
 
       const response = await fetch(
         `https://alimentador-production-15ae.up.railway.app/users/id/${userId}`,
@@ -37,14 +44,16 @@ const PhotoScreen: React.FC = () => {
 
       if (response.ok) {
         Alert.alert("Foto actualizada exitosamente");
+        navigation.navigate("Perfil"); // Navegar a la pantalla Perfil
       } else {
         Alert.alert(
-          "Error al actualizar la foto. Inténtalo de nuevo más tarde."
+          "Error",
+          "No se pudo actualizar la foto. Inténtalo de nuevo más tarde."
         );
       }
     } catch (error) {
       console.error("Error al actualizar la foto del usuario:", error);
-      Alert.alert("Error al actualizar la foto. Inténtalo de nuevo más tarde.");
+      Alert.alert("Error", "Ocurrió un problema. Inténtalo de nuevo.");
     }
   };
 

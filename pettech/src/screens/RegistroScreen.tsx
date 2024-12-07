@@ -106,7 +106,7 @@ const RegistroScreen = ({ navigation }) => {
             style={styles.picker} // Aplica el estilo aquí
             onValueChange={(itemValue) => setEdad(itemValue)}
           >
-            <Picker.Item label="Selecciona un tamaño" value="" />
+            <Picker.Item label="Selecciona un rango de edad" value="" />
             <Picker.Item label="De 1 a 6 meses" value="De 1 a 6 meses" />
             <Picker.Item label="De 7 a 12 meses" value="De 7 a 12 meses" />
             <Picker.Item label="De 1 a 3 años" value="De 1 a 3 años" />

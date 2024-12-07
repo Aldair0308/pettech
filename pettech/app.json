@@ -4,10 +4,10 @@
     "slug": "pettech",
     "version": "1.3.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon_pet.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash_pet.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
