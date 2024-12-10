@@ -12,6 +12,8 @@ import {
 import { useTheme } from "./../hooks/useTheme";
 import HoraDisplay from "../components/HoraActual";
 import ActualizarEstadoButton from "../components/ActualizarEstadoButton";
+import OpenButton from "../components/OpenButton";
+import CloseButton from "../components/CloseButton";
 
 const HomeScreen = () => {
   const { theme } = useTheme();
@@ -40,10 +42,12 @@ const HomeScreen = () => {
           {/* <TouchableOpacity style={styles.button1}>
             <Text style={styles.buttonText}>Dispensar</Text>
           </TouchableOpacity> */}
+          {/* <OpenButton /> */}
           <ActualizarEstadoButton />
-          <TouchableOpacity style={styles.button}>
+          {/* <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Parar</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <CloseButton />
         </View>
       </View>
     </View>

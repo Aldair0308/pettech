@@ -27,7 +27,7 @@ const FullBattery: React.FC = () => {
 
     // Llama a la función inmediatamente y luego cada 5 segundos
     fetchBatteryLevel();
-    const intervalId = setInterval(fetchBatteryLevel, 5000);
+    const intervalId = setInterval(fetchBatteryLevel, 1000);
 
     // Limpia el intervalo al desmontar el componente
     return () => clearInterval(intervalId);

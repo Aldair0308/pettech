@@ -21,7 +21,7 @@ const ShowImageHookComponent: React.FC = () => {
   React.useEffect(() => {
     const id = setInterval(() => {
       fetchUserData();
-    }, 5000);
+    }, 8000);
     return () => {
       clearInterval(id);
     };
